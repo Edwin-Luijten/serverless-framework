@@ -1,4 +1,4 @@
-import { InvalidMethodError, Router } from '../../src';
+import { InvalidMethodError, RouteNotFoundError, Router } from '../../src';
 import { WildcardError } from '../../src/radix/error';
 import routes from './routes.json';
 
@@ -10,6 +10,13 @@ describe('Router', () => {
         router.get('/blog', () => {});
 
         expect(() => router.lookup('foo', '/blog')).toThrow(InvalidMethodError);
+    });
+
+    it('should throw an error on route not found', () => {
+        const router = new Router<RequestHandler>();
+        router.get('/foo', () => {});
+
+        expect(() => router.lookup('get', '/bar')).toThrow(RouteNotFoundError);
     });
 
     it('should throw an error when encountering conflicting wildcard', () => {
