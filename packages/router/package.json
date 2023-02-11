@@ -1,8 +1,0 @@
-{
-  "name": "@serverless-framework/router",
-  "main": "./src/index.ts",
-  "version": "0.0.1-alpha-1",
-  "scripts": {
-    "test": "jest"
-  }
-}
