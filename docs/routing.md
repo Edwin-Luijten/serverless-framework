@@ -18,17 +18,82 @@ nav_order: 4
 ## Methods
 
 ```typescript
-router.get('/api/users', (req: RequestInterface, res: ResponseInterface) => {});
-router.post('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
-router.put('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
-router.patch('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
-router.delete('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
-router.any('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
+import { RequestInterface, ResponseInterface, HttpStatusCode } from '@serverless-framework/core';
+// No matter which provider you use, the signature is the same.
+import { createApi } from '@serverless-framework/aws-lambda';
+
+const API_VERSION = '1.0.0';
+
+const api = createApi({
+    base: '/api',
+});
+
+api.get('/api/users', (req: RequestInterface, res: ResponseInterface) => {});
+api.post('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
+api.put('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
+api.patch('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
+api.delete('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
+api.any('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
 ```
 
 ## Parameters
+{% highlight typescript %}
+// ...
+
+api.get('/users/:id', (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
+        req.status(HttpStatusCode.OK).json({
+        id: params.id,
+    });
+});
+
+// Wildcard routes are supported as well:
+// url: /files/avatars/1000/avatar.png
+api.get('/files/+filename', (req: RequestInterface<{params: {filename: string}}>, res: ResponseInterface) => {
+    // filename: /avatars/1000/avatar.png
+    req.status(HttpStatusCode.OK).json({
+        filename: params.filename,
+    });
+});
+{% endhighlight %}
+
+## Grouping 
+{% highlight typescript %}
+// ...
+
+api.group('/users', (router: Router) => {
+    router.get('/:id', (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
+        req.status(HttpStatusCode.OK).json({
+            id: params.id,
+        });
+    });
+});
+{% endhighlight %}
 
 ## Middlewares
+Having middlewares is as easy as adding more handlers to a route.  
+Middlewares will be executed by the order you define them.  
+
+{% highlight typescript %}
+// ...
+
+function authMiddleware(req: RequestInterface, res: ResponseInterface) {
+    if (req.hasHeader('Authorization')) {
+        res.sendStatus(HttpStatusCode.UNAUTHORIZED);
+    }
+}
+
+api.get('/users/:id', authMiddleware, (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
+    req.status(HttpStatusCode.OK).json({
+        id: params.id,
+    });
+});
+{% endhighlight %}
+
+{: .important-title }
+> Stopping the chain of execution
+> 
+>The chain of execution will be ended when a response is sent by methods like:
+>`sendStatus() or json()`.
 
 ## Error handlers
 

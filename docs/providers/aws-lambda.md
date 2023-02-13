@@ -5,7 +5,7 @@ parent: Providers
 nav_order: 2
 ---
 
-# Buttons
+# AWS Lambda
 {: .no_toc }
 
 ## Table of contents
@@ -27,3 +27,35 @@ npm install @serverless-framework/aws-lambda
 
 ## Usage
 
+{% highlight typescript %}  
+import { RequestInterface, ResponseInterface, HttpStatusCode } from '@serverless-framework/core';
+import { createApi } from '@serverless-framework/aws-lambda';
+
+const API_VERSION = '1.0.0';
+
+const api = createApi({
+  base: '/api',
+});
+
+api.get('/version', (req: RequestInterface, res: ResponseInterface) => {
+  req.status(HttpStatusCode.OK).json({
+    version: API_VERSION,
+  });
+});
+
+export const handler = api.handle(() => await api.run());
+
+{% endhighlight %}
+
+### Parameters
+{% highlight typescript %}
+api.get('/users/:id', (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
+      req.status(HttpStatusCode.OK).json({
+      id: params.id,
+  });
+});
+{% endhighlight %}
+
+---
+
+Next: Learn more about [routing]({% link docs/routing.md %}).
