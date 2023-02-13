@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.github_repo }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Serverless Framework;
+title: Serverless Framework
 description: Build your next serverless api
 baseurl: "/serverless-framework" # the subpath of your site, e.g. /blog
 url: "https://edwin-luijten.github.io" # the base hostname & protocol for your site, e.g. http://example.com
@@ -84,7 +84,7 @@ mermaid:
   # Pick an available version from https://cdn.jsdelivr.net/npm/mermaid/
   version: "9.1.6"
   # Put any additional configuration, such as setting the theme, in _includes/mermaid_config.js
-  # See also docs/ui-components/code
+  # See also docs/providers/code
   # To load mermaid from a local file use the `path` key to specify the location of the library instead; e.g.
   # path: "/assets/js/mermaid.min.js"
 
