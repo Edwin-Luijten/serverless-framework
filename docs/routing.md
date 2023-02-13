@@ -76,10 +76,13 @@ Middlewares will be executed by the order you define them.
 {% highlight typescript %}
 // ...
 
-function authMiddleware(req: RequestInterface, res: ResponseInterface) {
+function authMiddleware(req: RequestInterface, res: ResponseInterface, next?: NextFunction) {
     if (req.hasHeader('Authorization')) {
         res.sendStatus(HttpStatusCode.UNAUTHORIZED);
     }
+
+    // Continue with the next handler
+    if (next) next();
 }
 
 api.get('/users/:id', authMiddleware, (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
