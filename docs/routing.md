@@ -73,6 +73,13 @@ api.group('/users', (router: Router) => {
 Having middlewares is as easy as adding more handlers to a route.  
 Middlewares will be executed by the order you define them.  
 
+{: .important-title }
+> Stopping the chain of execution
+>
+>The chain of execution will be ended when a response is sent by methods like:
+>`sendStatus() or json()`.
+
+### Per route
 {% highlight typescript %}
 // ...
 
@@ -92,13 +99,56 @@ api.get('/users/:id', authMiddleware, (req: RequestInterface<{params: {id: strin
 });
 {% endhighlight %}
 
-{: .important-title }
-> Stopping the chain of execution
-> 
->The chain of execution will be ended when a response is sent by methods like:
->`sendStatus() or json()`.
+### Per group
+
+{% highlight typescript %}
+// ...
+
+api.group('/users', (router: Router) => {
+    router.get('/:id', (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
+        req.status(HttpStatusCode.OK).json({
+            id: params.id,
+        });
+    });
+}, authMiddleware, validationErrorMiddleware);
+
+{% endhighlight %}
+
+### Globally
+
+{% highlight typescript %}
+// ...
+
+api.use(authMiddleware, validationErrorMiddleware);
+
+{% endhighlight %}
 
 ## Error handlers
+You can define error handlers the same way as middlewares, the signature is slightly different.
+Also for error handlers, the order is respected.  
+{% highlight typescript %}
+// ...
+
+function validationErrorMiddleware(err: any, req: RequestInterface, res: ResponseInterface, next?: NextFunction) {
+    if (e instanceof ValidationError) {
+        // parse the validation error and format it to your own standard (or not).
+        res.status(HttpStatusCode.BAD_REQUEST).json(err);
+    }
+
+    // Continue, this will go the the next error handler, in this case the errorMiddleware
+    if (next) next();
+});
+
+function errorMiddleware(err: any, req: RequestInterface, res: ResponseInterface, next?: NextFunction) {
+    console.error('Something went wrong', err);
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        message: err.message,
+    });
+});
+
+api.use(validationErrorMiddleware, errorMiddleware);
+
+{% endhighlight %}
 
 ## Stand-alone usage
 
