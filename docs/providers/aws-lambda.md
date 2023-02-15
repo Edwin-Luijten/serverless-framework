@@ -29,11 +29,12 @@ npm install @serverless-framework/aws-lambda
 
 {% highlight typescript %}  
 import { RequestInterface, ResponseInterface, HttpStatusCode } from '@serverless-framework/core';
-import { createApi } from '@serverless-framework/aws-lambda';
+import { Api } from '@serverless-framework/aws-lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyEventV2, Context } from 'aws-lambda';
 
 const API_VERSION = '1.0.0';
 
-const api = createApi({
+const api = new Api({
   base: '/api',
 });
 
@@ -43,7 +44,7 @@ api.get('/version', (req: RequestInterface, res: ResponseInterface) => {
   });
 });
 
-export const handler = api.handle(() => await api.run());
+export const handler = api.handle((event: APIGatewayProxyEvent | APIGatewayProxyEventV2, context: Context) => await api.run());
 
 {% endhighlight %}
 
