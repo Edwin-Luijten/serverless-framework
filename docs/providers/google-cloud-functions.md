@@ -1,11 +1,12 @@
 ---
 layout: default
-title: AWS Lambda
+title: Google Cloud Functions
 parent: Providers
 nav_order: 2
 ---
 
-# AWS Lambda
+# Google Cloud Functions
+
 {: .no_toc }
 
 ## Table of contents
@@ -19,9 +20,10 @@ nav_order: 2
 ## Installation
 
 ```shell
-npm install @serverless-framework/aws-lambda
+npm install @serverless-framework/google-cloud-functions
 ```
-[AWS Lambda with Node.js](https://docs.aws.amazon.com/lambda/latest/dg/lambda-nodejs.html){:target="_blank"}{: .btn .btn-purple .mr-2 }  
+
+[Google Cloud Functions with Node.js](https://cloud.google.com/functions/docs/writing){:target="_blank"}{: .btn .btn-purple .mr-2 }
 
 ---
 
@@ -29,31 +31,33 @@ npm install @serverless-framework/aws-lambda
 
 {% highlight typescript %}  
 import { RequestInterface, ResponseInterface, HttpStatusCode } from '@serverless-framework/core';
-import { Api } from '@serverless-framework/aws-lambda';
-import { APIGatewayProxyEvent, APIGatewayProxyEventV2, Context } from 'aws-lambda';
+import { Api } from '@serverless-framework/google-cloud-functions';
+// Only importing the types @types/express
+import { Request } from 'express';
 
 const API_VERSION = '1.0.0';
 
 const api = new Api({
-  base: '/api',
+   base: '/api',
 });
 
 api.get('/version', (req: RequestInterface, res: ResponseInterface) => {
-  req.status(HttpStatusCode.OK).json({
-    version: API_VERSION,
-  });
+      req.status(HttpStatusCode.OK).json({
+      version: API_VERSION,
+   });
 });
 
-export const handler = api.handle((event: APIGatewayProxyEvent | APIGatewayProxyEventV2, context: Context) => await api.run());
+export const handler = api.handle((req: Request) => await api.run());
 
 {% endhighlight %}
 
 ### Parameters
+
 {% highlight typescript %}
 api.get('/users/:id', (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
-      req.status(HttpStatusCode.OK).json({
-      id: params.id,
-  });
+        req.status(HttpStatusCode.OK).json({
+        id: params.id,
+    });
 });
 {% endhighlight %}
 

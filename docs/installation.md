@@ -7,7 +7,7 @@ nav_order: 2
 # Installation
 {: .no_toc }
 
-The easiest way of starting a new project is by using `create-serverless-project`.  
+  
 {: .fs-6 .fw-300 }
 
 ## Table of contents
@@ -17,6 +17,8 @@ The easiest way of starting a new project is by using `create-serverless-project
 {:toc}
 
 ---
+
+The easiest way of starting a new project is by using `create-serverless-project`.
 
 ## Create Serverless Project
 
