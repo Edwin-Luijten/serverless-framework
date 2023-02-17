@@ -1,0 +1,8 @@
+{
+  "name": "@serverless-framework/core",
+  "main": "./src/index.ts",
+  "version": "0.0.1-alpha-1",
+  "dependencies": {
+    "@serverless-framework/router": "0.0.1-alpha-1"
+  }
+}
