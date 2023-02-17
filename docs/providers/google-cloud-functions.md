@@ -6,7 +6,6 @@ nav_order: 2
 ---
 
 # Google Cloud Functions
-
 {: .no_toc }
 
 ## Table of contents
