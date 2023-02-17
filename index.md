@@ -27,13 +27,14 @@ const api = new Api({
 });
 
 api.get('/version', (req: RequestInterface, res: ResponseInterface) => {
-        req.status(HttpStatusCode.OK).json({
+    req.status(HttpStatusCode.OK).json({
         version: API_VERSION,
     });
 });
 
 // AWS-Lambda
 export const handler = api.handle((event: APIGatewayProxyEvent) => await api.run());
+
 // Google Cloud Functions
 export const handler = api.handle((req: Request) => await api.run());
 {% endhighlight %}
