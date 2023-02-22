@@ -1,7 +1,7 @@
 {
   "name": "@serverless-framework/router",
   "main": "./src/index.ts",
-  "version": "0.0.1-alpha-1",
+  "version": "0.1.0-alpha-1.0",
   "scripts": {
     "test": "jest",
     "build": "tsc -p tsconfig.build.json && cp README.md dist/README.md"
