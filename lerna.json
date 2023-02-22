@@ -2,7 +2,7 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useWorkspaces": true,
   "version": "independent",
-  "commands": {
+  "command": {
     "publish": {
       "message": "chore: release"
     }
