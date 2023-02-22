@@ -1,0 +1,30 @@
+{
+  "name": "@serverless-framework/create-sf-project",
+  "main": "./src/index.ts",
+  "version": "0.0.1-alpha-1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && cp README.md dist/README.md && cp package.json dist/package.json && cp providers.json dist/providers.json && cp -r templates dist/templates"
+  },
+  "bin": {
+    "@serverless-framework/create-sf-project": "dist/index.js"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "commander": "^10.0.0",
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^11.1.0",
+    "prompts": "^2.4.2",
+    "semver": "^7.3.8"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.2",
+    "@types/fs-extra": "^11.0.1",
+    "@types/prompts": "^2.4.2",
+    "@types/semver": "^7.3.13"
+  }
+}
