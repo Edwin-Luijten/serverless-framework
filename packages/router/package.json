@@ -3,6 +3,11 @@
   "main": "./src/index.ts",
   "version": "0.0.1-alpha-1",
   "scripts": {
-    "test": "jest"
-  }
+    "test": "jest",
+    "build": "tsc -p tsconfig.build.json && cp README.md dist/README.md"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "types": "dist/index.d.ts"
 }

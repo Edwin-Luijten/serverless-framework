@@ -5,11 +5,13 @@
     "lib": [
       "ESNext"
     ],
+    "declaration": true,
     "skipLibCheck": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "rootDir": "src/",
+    "rootDir": "./",
     "sourceMap": false,
+    "allowJs": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noImplicitThis": true,
@@ -20,12 +22,11 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "incremental": true,
-    "outDir": ".build/",
-    "baseUrl": "src/",
     "resolveJsonModule": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "test/**/*"
   ],
   "exclude": [
     "node_modules/**/*"

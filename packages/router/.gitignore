@@ -1,11 +1,2 @@
-/*
-!src
-!test
-!.gitignore
-!jest.config.js
-!package.json
-!package-lock.json
-!radix.jpg
-!README.md
-!CHANGELOG.md
-!tsconfig.json
+dist
+*tsbuildinfo
