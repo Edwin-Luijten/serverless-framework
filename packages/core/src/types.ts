@@ -8,6 +8,7 @@ export type JsonValue =
     | Array<JsonValue>;
 
 export type ParamsDictionary = { [key: string]: string };
+export type Dictionary = string | number | boolean | undefined | { [key: string]: Dictionary };
 
 export type CorsOptions = {
     credentials?: boolean;
@@ -32,8 +33,10 @@ export type CookieOptions = {
 
 export type Context = { [key: string]: string };
 
-export interface RequestInterface<P = ParamsDictionary, Res = any, ReqBody = any, Query = {}> {
+export interface RequestInterface<P = ParamsDictionary, C = Dictionary, Res = any, ReqBody = any, Query = {}> {
     params: P;
+
+    context: C;
 
     headers: IncomingHttpHeaders;
 
@@ -54,7 +57,8 @@ export interface RequestInterface<P = ParamsDictionary, Res = any, ReqBody = any
     getCookie(key: string): string | undefined;
 
     isBase64Encoded: boolean;
-
+    clientCountry: string | undefined;
+    userAgent: string | undefined;
     body: ReqBody;
 }
 
@@ -76,11 +80,13 @@ export interface ResponseInterface<Res = any> {
     headers: { [key: string]: Array<string> };
 
     setHeader(name: string, value: string, append: boolean): this;
+
     setHeader(name: string, value: string): this;
 
     getHeader(name: string): string | undefined;
 
     cache(maxAge: string | number | boolean, isPrivate: boolean): this
+
     cache(maxAge: string | number | boolean): this
 
     _response: any;
@@ -95,11 +101,12 @@ export type Send<Res = any, T = ResponseInterface<Res>> = (body?: Res) => T;
 export type NextFunction = (err?: any) => void;
 
 export type RequestHandler<
-    P = ParamsDictionary,
+    P = any,
+    C = any,
     Res = any,
     Req = any,
     Query = {}
-> = (req: RequestInterface<P, Res, Req, Query>, res: ResponseInterface, next?: NextFunction) => JsonValue | void;
+> = (req: RequestInterface<P, C, Res, Req, Query>, res: ResponseInterface, next?: NextFunction) => JsonValue | void;
 export type ErrorHandler<
     P = ParamsDictionary,
     Res = any,

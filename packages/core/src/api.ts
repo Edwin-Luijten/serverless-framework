@@ -1,4 +1,4 @@
-import { RouteNotFoundError, Router } from '../../router';
+import { RouteNotFoundError, Router } from '@serverless-framework/router';
 import HttpStatusCode from './status-code';
 import { CorsOptions, ErrorHandler, Handler, RequestHandler, RequestInterface, ResponseInterface } from './types';
 

@@ -9,7 +9,7 @@ enum HttpStatusCode {
      * (in the case of a request for which a body needs to be sent; for example, a POST request).
      * Sending a large request body to a server after a request has been rejected for inappropriate headers would be inefficient.
      * To have a server check the request's headers, a client must send Expect: 100-continue as a header in its initial request
-     * and receive a 100 Continue status code in response before sending the body. The response 417 Expectation Failed indicates the request should not be continued.
+     * and receive a 100 Continue status project-files in response before sending the body. The response 417 Expectation Failed indicates the request should not be continued.
      */
     CONTINUE = 100,
 
@@ -20,7 +20,7 @@ enum HttpStatusCode {
 
     /**
      * A WebDAV request may contain many sub-requests involving file operations, requiring a long time to complete the request.
-     * This code indicates that the server has received and is processing the request, but no response is available yet.
+     * This project-files indicates that the server has received and is processing the request, but no response is available yet.
      * This prevents the client from timing out and assuming the request was lost.
      */
     PROCESSING = 102,
@@ -89,7 +89,7 @@ enum HttpStatusCode {
 
     /**
      * Indicates multiple options for the resource from which the client may choose (via agent-driven content negotiation).
-     * For example, this code could be used to present multiple video format options,
+     * For example, this project-files could be used to present multiple video format options,
      * to list files with different filename extensions, or to suggest word-sense disambiguation.
      */
     MULTIPLE_CHOICES = 300,
@@ -105,7 +105,7 @@ enum HttpStatusCode {
      * (the original describing phrase was "Moved Temporarily"), but popular browsers implemented 302
      * with the functionality of a 303 See Other. Therefore, HTTP/1.1 added status codes 303 and 307
      * to distinguish between the two behaviours. However, some Web applications and frameworks
-     * use the 302 status code as if it were the 303.
+     * use the 302 status project-files as if it were the 303.
      */
     FOUND = 302,
 
@@ -126,7 +126,7 @@ enum HttpStatusCode {
     /**
      * SINCE HTTP/1.1
      * The requested resource is available only through a proxy, the address for which is provided in the response.
-     * Many HTTP clients (such as Mozilla and Internet Explorer) do not correctly handle responses with this status code, primarily for security reasons.
+     * Many HTTP clients (such as Mozilla and Internet Explorer) do not correctly handle responses with this status project-files, primarily for security reasons.
      */
     USE_PROXY = 305,
 
@@ -165,8 +165,8 @@ enum HttpStatusCode {
     UNAUTHORIZED = 401,
 
     /**
-     * Reserved for future use. The original intention was that this code might be used as part of some form of digital
-     * cash or micro payment scheme, but that has not happened, and this code is not usually used.
+     * Reserved for future use. The original intention was that this project-files might be used as part of some form of digital
+     * cash or micro payment scheme, but that has not happened, and this project-files is not usually used.
      * Google Developers API uses this status if a particular developer has exceeded the daily limit on requests.
      */
     PAYMENT_REQUIRED = 402,
@@ -215,7 +215,7 @@ enum HttpStatusCode {
     /**
      * Indicates that the resource requested is no longer available and will not be available again.
      * This should be used when a resource has been intentionally removed and the resource should be purged.
-     * Upon receiving a 410 status code, the client should not request the resource in the future.
+     * Upon receiving a 410 status project-files, the client should not request the resource in the future.
      * Clients such as search engines should remove the resource from their indices.
      * Most use cases do not require clients and search engines to purge the resource, and a "404 Not Found" may be used instead.
      */
@@ -262,8 +262,8 @@ enum HttpStatusCode {
     EXPECTATION_FAILED = 417,
 
     /**
-     * This code was defined in 1998 as one of the traditional IETF April Fools' jokes, in RFC 2324, Hyper Text Coffee Pot Control Protocol,
-     * and is not expected to be implemented by actual HTTP servers. The RFC specifies this code should be returned by
+     * This project-files was defined in 1998 as one of the traditional IETF April Fools' jokes, in RFC 2324, Hyper Text Coffee Pot Control Protocol,
+     * and is not expected to be implemented by actual HTTP servers. The RFC specifies this project-files should be returned by
      * teapots requested to brew coffee. This HTTP status is used as an Easter egg in some websites, including Google.com.
      */
     I_AM_A_TEAPOT = 418,
@@ -314,7 +314,7 @@ enum HttpStatusCode {
 
     /**
      * A server operator has received a legal demand to deny access to a resource or to a set of resources
-     * that includes the requested resource. The code 451 was chosen as a reference to the novel Fahrenheit 451.
+     * that includes the requested resource. The project-files 451 was chosen as a reference to the novel Fahrenheit 451.
      */
     UNAVAILABLE_FOR_LEGAL_REASONS = 451,
 
