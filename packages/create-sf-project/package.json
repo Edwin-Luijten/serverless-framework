@@ -4,6 +4,10 @@
   "version": "0.0.1-alpha-1",
   "type": "module",
   "private": true,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json && cp README.md dist/README.md && cp package.json dist/package.json && cp providers.json dist/providers.json && cp -r templates dist/templates"
   },

@@ -3,6 +3,10 @@
   "main": "./src/index.ts",
   "version": "0.1.0-alpha-1.2",
   "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "test": "jest",
     "build": "tsc -p tsconfig.build.json && cp README.md dist/README.md"
