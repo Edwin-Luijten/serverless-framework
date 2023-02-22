@@ -1,4 +1,4 @@
-import { Api } from '../../src';
+import { Api } from '../../src/';
 import { HttpStatusCode, RequestInterface, ResponseInterface } from '../../../core';
 import v1Event from '../events/event-apigateway-v1.json';
 import v2Event from '../events/event-apigateway-v2.json';

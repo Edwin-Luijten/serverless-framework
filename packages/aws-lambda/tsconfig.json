@@ -22,10 +22,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "incremental": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "@serverless-framework/*": ["../"]
-    }
+    "resolveJsonModule": true
   },
   "include": [
     "src/**/*",
