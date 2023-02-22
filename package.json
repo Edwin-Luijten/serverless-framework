@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx lerna run test",
     "build": "npx lerna run build",
-    "release": "npx lerna exec --concurrency 1 -- npx --no-install semantic-release -e semantic-release-monorepo"
+    "release": "npx lerna publish --conventional-commits --no-private"
   },
   "author": "Edwin Luijten",
   "license": "ISC",

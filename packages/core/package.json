@@ -1,6 +1,5 @@
 {
   "name": "@serverless-framework/core",
-  "main": "./src/index.ts",
   "version": "0.0.1-alpha-1.3",
   "private": false,
   "publishConfig": {
@@ -10,10 +9,11 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json && cp README.md dist/README.md"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*"
   ],
-  "types": "dist/index.d.ts",
   "dependencies": {
     "@serverless-framework/router": "^0.1.0-alpha-1.3"
   }
