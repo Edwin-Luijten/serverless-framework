@@ -1,0 +1,53 @@
+{
+  "aws-lambda": {
+    "addons": {
+      "serverless": {
+        "files": [
+          "serverless/project-files"
+        ],
+        "devDependencies": [
+          "serverless",
+          "serverless-dotenv-plugin",
+          "serverless-webpack"
+        ]
+      },
+      "localstack": {
+        "files": [
+          "localstack/project-files"
+        ],
+        "devDependencies": [
+          "serverless",
+          "serverless-dotenv-plugin",
+          "serverless-localstack",
+          "serverless-webpack"
+        ]
+      }
+    },
+    "dependencies": [
+      "@serverless-framework/core",
+      "@serverless-framework/aws-lambda"
+    ],
+    "devDependencies": [
+      "@types/aws-lambda",
+      "@types/aws-sdk",
+      "@types/jest",
+      "@types/node",
+      "@typescript-eslint/eslint-plugin",
+      "@typescript-eslint/parser",
+      "aws-sdk",
+      "eslint",
+      "eslint-config-airbnb-base",
+      "eslint-import-resolver-typescript",
+      "eslint-plugin-import",
+      "eslint-plugin-jest",
+      "jest",
+      "ts-jest",
+      "ts-loader",
+      "ts-node",
+      "typescript",
+      "webpack",
+      "webpack-cli",
+      "webpack-node-externals"
+    ]
+  }
+}

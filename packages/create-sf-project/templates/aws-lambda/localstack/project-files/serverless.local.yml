@@ -1,0 +1,46 @@
+service: api
+configValidationMode: error
+
+provider:
+  stackName: ${env:STACK_NAME, 'serverless-framework'}-sls-middleware
+  name: aws
+  runtime: nodejs18.x
+  stage: local
+  region: ${env:AWS_DEFAULT_REGION, 'eu-central-1'}
+  environment: ${file(./serverless.yml):provider.environment}
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
+    restApiId: !Ref ApiGateway
+    restApiRootResourceId:
+      'Fn::GetAtt':
+        - ApiGateway
+        - RootResourceId
+
+plugins:
+  - serverless-webpack
+  - serverless-localstack
+
+custom:
+  stage: local
+  webpack: ${file(./serverless.yml):custom.webpack}
+  localstack:
+    debug: true
+    edgePort: 4566
+    autostart: false
+    stages: [ local ]
+    lambda:
+      mountCode: true
+
+functions:
+  api: ${file(./serverless.yml):functions.api}
+
+resources:
+  Resources:
+    ApiGateway:
+      Type: AWS::ApiGateway::RestApi
+      Properties:
+        Name: ApiGateway
+        Tags:
+          - Key: _custom_id_
+            Value: foo

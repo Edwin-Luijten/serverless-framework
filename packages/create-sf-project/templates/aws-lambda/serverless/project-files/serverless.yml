@@ -1,0 +1,42 @@
+service: api
+configValidationMode: error
+
+provider:
+  stackName: ${env:STACK_NAME}-sls-serverless-framework
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'local'}
+  region: ${env:AWS_DEFAULT_REGION}
+  vpc:
+    securityGroupIds:
+      - !ImportValue ${env:STACK_NAME}-lambda-security-group
+    subnetIds:
+      - !ImportValue ${env:STACK_NAME}-lambda-subnet-1
+      - !ImportValue ${env:STACK_NAME}-lambda-subnet-2
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    ENVIRONMENT: ${opt:stage, 'local'}
+    NODE_ENV: ${opt:stage, 'local'}
+    S3_BUCKET: ${env:S3_BUCKET, ''}
+    ELB_HOST: ${env:ELB_HOST, ''}
+    # CUSTOM ENVS for our AWS stack:
+
+
+plugins:
+  - serverless-webpack
+
+custom:
+  stage: ${opt:stage, 'local'}
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+    keepOutputDirectory: true
+
+functions:
+  api:
+    handler: src/handler/http.handle
+    events:
+      - http:
+          method: any
+          cors: true
+          path: api/{proxy+}

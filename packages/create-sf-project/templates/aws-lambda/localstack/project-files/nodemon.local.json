@@ -1,0 +1,11 @@
+{
+  "verbose": false,
+  "delay": 1000,
+  "watch": [
+    "*.yml",
+    ".env",
+    "src"
+  ],
+  "ext": "ts,js,yml,env",
+  "exec": "npm run build:local"
+}
