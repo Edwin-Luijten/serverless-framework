@@ -4,7 +4,9 @@
   "description": "Lightweight web framework for your serverless applications",
   "main": "index.js",
   "scripts": {
-    "test": "npx lerna run test"
+    "test": "npx lerna run test",
+    "build": "npx lerna run build",
+    "release": "npx lerna exec --concurrency 1 -- npx --no-install semantic-release -e semantic-release-monorepo"
   },
   "author": "Edwin Luijten",
   "license": "ISC",
