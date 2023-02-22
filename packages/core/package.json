@@ -7,12 +7,14 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && cp README.md dist/README.md"
+    "build": "tsc -p tsconfig.build.json"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "README.md",
+    "LICENSE.md"
   ],
   "dependencies": {
     "@serverless-framework/router": "^0.1.0-alpha-1.4"
