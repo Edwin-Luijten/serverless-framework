@@ -53,9 +53,9 @@ api.get('/users/:id', (req: RequestInterface<{id: string}>, res: ResponseInterfa
 // Wildcard routes are supported as well:
 // url: /files/avatars/1000/avatar.png
 api.get('/files/+file', (req: RequestInterface<{file: string}>, res: ResponseInterface) => {
-    // filename: /avatars/1000/avatar.png
+    // file: /avatars/1000/avatar.png
     req.status(HttpStatusCode.OK).json({
-        filename: params.filename,
+        filename: params.file,
     });
 });
 {% endhighlight %}
