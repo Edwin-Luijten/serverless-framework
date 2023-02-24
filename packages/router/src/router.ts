@@ -77,7 +77,7 @@ export class Router<Handler> {
             _prefix = `${_prefix}/`;
         }
 
-        this.prefix = _prefix;
+        this.prefix = this.prefix.concat(_prefix);
     }
 
     public removePrefix(): void {
