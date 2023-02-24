@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -o nounset
+set -o errexit
+source ./shell-tools/style.sh
+
+cecho "Please ensure the docker localstack environment is running and ready." 33
+
+ENDPOINT="${1:-http://localhost:4566}"
+DEFAULT_REGION="${2:-eu-central-1}"
+pids=()
+
+interrupt_logs() {
+  trap SIGINT
+  kill "${pids[@]}"
+  cecho "Interrupted tracking lambda logs." 33
+}
+
+trap "interrupt_logs" INT
+
+cecho "aws --endpoint-url ${ENDPOINT} --region ${DEFAULT_REGION} lambda list-functions --no-sign-request --query 'Functions[].FunctionName' --output text" 36
+
+functions=($(aws --endpoint-url ${ENDPOINT} --region ${DEFAULT_REGION} lambda list-functions --no-sign-request --query 'Functions[].FunctionName' --output text))
+
+for functionName in "${functions[@]}"; do
+  cecho "aws --endpoint-url ${ENDPOINT} --region ${DEFAULT_REGION} logs tail /aws/lambda/${functionName} --no-sign-request --color on --format short --since 1m --follow &" 36
+
+  aws --endpoint-url ${ENDPOINT} --region ${DEFAULT_REGION} logs tail /aws/lambda/${functionName} --no-sign-request --color on --format short --since 1m --follow &
+  pids+=("$!")
+done
+
+cecho "[OK]" 32
+
+for pid in ${pids[@]}; do
+  wait $pid
+done
+
+trap SIGINT
