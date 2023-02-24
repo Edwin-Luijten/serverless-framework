@@ -1,7 +1,7 @@
 {
   "name": "@serverless-framework/create",
   "main": "./src/index.ts",
-  "version": "0.0.1-alpha-1",
+  "version": "0.1.0-alpha-1.0",
   "type": "module",
   "publishConfig": {
     "access": "public",
@@ -22,10 +22,10 @@
     "cross-spawn": "^7.0.3",
     "fs-extra": "^11.1.0",
     "glob": "^8.1.0",
+    "kolorist": "^1.7.0",
     "minimist": "^1.2.8",
     "prompts": "^2.4.2",
-    "semver": "^7.3.8",
-    "kolorist": "^1.7.0"
+    "semver": "^7.3.8"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",

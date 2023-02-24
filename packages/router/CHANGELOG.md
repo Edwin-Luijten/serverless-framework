@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-alpha-1.5](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/router@0.1.0-alpha-1.4...@serverless-framework/router@0.1.0-alpha-1.5) (2023-02-24)
+
+
+### Bug Fixes
+
+* **router:** correct build-up of prefix ([ff92dcf](https://github.com/Edwin-Luijten/serverless-framework/commit/ff92dcfac500bdbaeba0db3d6bfcf24ceca92d83))
+
+
+
+
+
 # [0.1.0-alpha-1.4](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/router@0.1.0-alpha-1.3...@serverless-framework/router@0.1.0-alpha-1.4) (2023-02-22)
 
 
