@@ -16,22 +16,9 @@ permalink:
 ![Google Cloud Functions](https://img.shields.io/badge/Google%20Cloud%20Functions-%234285F4?style=for-the-badge&logo=google&logoColor=white)
 ![Azure Functions](https://img.shields.io/badge/Azure%20Functions-%230078D7?style=for-the-badge&logo=azurefunctions&logoColor=white)
 
-Our goal is to deliver a single developer experience between multiple cloud providers.  
+Delivering a single developer experience between multiple cloud providers.  
 
 {% highlight typescript %}
-// ... imports
-const API_VERSION = '1.0.0';
-
-const api = new Api({
-    base: '/api',
-});
-
-api.get('/version', (req: RequestInterface, res: ResponseInterface) => {
-    req.status(HttpStatusCode.OK).json({
-        version: API_VERSION,
-    });
-});
-
 // AWS-Lambda
 export const handler = api.handle((event: APIGatewayProxyEvent) => await api.run());
 

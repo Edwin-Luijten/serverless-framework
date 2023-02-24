@@ -57,6 +57,8 @@ api.get('/users/:id', (req: RequestInterface<{params: {id: string}}>, res: Respo
 });
 {% endhighlight %}
 
+## Localstack
+
 ---
 
 Next: Learn more about [routing]({% link docs/routing.md %}).
