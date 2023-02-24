@@ -61,7 +61,7 @@ api.get('/files/+filename', (req: RequestInterface<{params: {filename: string}}>
 // ...
 
 api.group('/users', (api: Api) => {
-    api.get('/:id', (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
+    api.get('/:id', (req: RequestInterface<{id: string}>, res: ResponseInterface) => {
         req.status(HttpStatusCode.OK).json({
             id: params.id,
         });
