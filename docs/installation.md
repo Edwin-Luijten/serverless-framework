@@ -19,30 +19,31 @@ nav_order: 2
 ---
 
 The easiest way of starting a new project is by using `create-sf-project`.
+![](/serverless-framework/assets/images/cli.png "cli")
 
 ## Create Serverless Project
 
-![](/serverless-framework/assets/images/cli.png "cli")
 ```bash
-npx create-sf-project api aws-lambda
+npx create-sf-project
 ```
+When no arguments are given, the wizard will be used to gather some information.
 
 ### Usage
 
 ```shell
-npx @serverless-framework/create-roject <project-directory> <provider> [addons]
+npx @serverless-framework/create-roject <project-directory> <provider> [features]
 ```
 
 #### Options
-`--addons` a comma separated list of addons. See [Providers](#providers) for more information.
+`--features` a comma separated list of addons. See [Providers](#providers) for more information.
 
 ### Providers
 
 #### AWS-Lambda
 ```shell
-npx @serverless-framework/create-roject . aws-lambda [addons]
+npx @serverless-framework/create-roject . aws-lambda [features]
 ```
-#### Addons
+#### features
 - [serverless](https://www.serverless.com/framework/docs){:target="_blank"}
 - [localstack](https://docs.localstack.cloud/overview/){:target="_blank"}
 
