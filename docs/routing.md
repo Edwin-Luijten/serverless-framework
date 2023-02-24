@@ -26,12 +26,18 @@ const api = createApi({
     base: '/api',
 });
 
-api.get('/api/users', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
-api.post('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
-api.put('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
-api.patch('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
-api.delete('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
-api.any('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
+api.get('/api/users', (req: RequestInterface, res: ResponseInterface) => 
+    res.sendStatus(HttpStatusCode.OK));
+api.post('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => 
+    res.sendStatus(HttpStatusCode.OK));
+api.put('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => 
+    res.sendStatus(HttpStatusCode.OK));
+api.patch('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => 
+    res.sendStatus(HttpStatusCode.OK));
+api.delete('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => 
+    res.sendStatus(HttpStatusCode.OK));
+api.any('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => 
+    res.sendStatus(HttpStatusCode.OK));
 {% endhighlight %}
 
 ## Parameters
