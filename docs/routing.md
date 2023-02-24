@@ -45,7 +45,7 @@ api.any('/api/users/:id', (req: RequestInterface, res: ResponseInterface) =>
 // ...
 
 api.get('/users/:id', (req: RequestInterface<{id: string}>, res: ResponseInterface) => {
-        req.status(HttpStatusCode.OK).json({
+    req.status(HttpStatusCode.OK).json({
         id: params.id,
     });
 });
