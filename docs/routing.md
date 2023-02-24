@@ -90,7 +90,7 @@ function authMiddleware(req: RequestInterface, res: ResponseInterface, next?: Ne
     if (next) next();
 }
 
-api.get('/users/:id', authMiddleware, (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
+api.get('/users/:id', authMiddleware, (req: RequestInterface<{id: string}>, res: ResponseInterface) => {
     req.status(HttpStatusCode.OK).json({
         id: params.id,
     });
@@ -103,7 +103,7 @@ api.get('/users/:id', authMiddleware, (req: RequestInterface<{params: {id: strin
 // ...
 
 api.group('/users', (router: Router) => {
-    router.get('/:id', (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
+    router.get('/:id', (req: RequestInterface<{id: string}>, res: ResponseInterface) => {
         req.status(HttpStatusCode.OK).json({
             id: params.id,
         });
