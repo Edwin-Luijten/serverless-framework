@@ -76,18 +76,17 @@ export class BaseApi {
     public group(prefix: string, cb: (api: this) => void, beforeHandlers: Array<Handler> = [], afterHandlers: Array<Handler> = []) {
         this.router.applyPrefix(prefix);
 
-        this.router.applyBeforeMiddlewares(beforeHandlers);
-        this.router.applyAfterMiddlewares(afterHandlers);
+        if (beforeHandlers.length) this.router.applyBeforeMiddlewares(beforeHandlers);
+        if (afterHandlers.length) this.router.applyAfterMiddlewares(afterHandlers);
 
         cb(this);
 
         this.router.removePrefix();
-        this.router.removeBeforeMiddlewares();
-        this.router.removeAfterMiddlewares();
+        if (beforeHandlers.length) this.router.removeBeforeMiddlewares();
+        if (afterHandlers.length) this.router.removeAfterMiddlewares();
     }
 
     public async handle(req: RequestInterface, res: ResponseInterface): Promise<any> {
-
         try {
             const route = this.router.lookup(req.method, req.path);
 
@@ -122,6 +121,8 @@ export class BaseApi {
                 res.sendStatus(HttpStatusCode.NOT_FOUND);
                 return res._response;
             }
+
+            throw e;
         }
 
         return res._response;
