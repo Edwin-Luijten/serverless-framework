@@ -17,7 +17,7 @@ nav_order: 4
 
 ## Methods
 
-```typescript
+{% highlight typescript %}
 import { RequestInterface, ResponseInterface, HttpStatusCode } from '@serverless-framework/core';
 // No matter which provider you use, the signature is the same.
 import { createApi } from '@serverless-framework/aws-lambda';
@@ -32,7 +32,7 @@ api.put('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res
 api.patch('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
 api.delete('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
 api.any('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
-```
+{% endhighlight %}
 
 ## Parameters
 {% highlight typescript %}
