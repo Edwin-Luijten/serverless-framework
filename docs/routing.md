@@ -60,8 +60,8 @@ api.get('/files/+filename', (req: RequestInterface<{params: {filename: string}}>
 {% highlight typescript %}
 // ...
 
-api.group('/users', (router: Router) => {
-    router.get('/:id', (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
+api.group('/users', (api: Api) => {
+    api.get('/:id', (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
         req.status(HttpStatusCode.OK).json({
             id: params.id,
         });
