@@ -77,7 +77,7 @@ Middlewares will be executed by the order you define them.
 > Stopping the chain of execution
 >
 >The chain of execution will be ended when a response is sent by methods like:
->`sendStatus() or json()`.
+>`sendStatus(), send() or json()`.
 
 ### Per route
 {% highlight typescript %}
