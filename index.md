@@ -19,6 +19,18 @@ permalink:
 Delivering a single developer experience between multiple cloud providers.  
 
 {% highlight typescript %}
+const API_VERSION = '1.0.0';
+
+const api = new Api({
+    base: '/api',
+});
+
+api.get('/version', (req: RequestInterface, res: ResponseInterface) => {
+    req.status(HttpStatusCode.OK).json({
+        version: API_VERSION,
+    });
+});
+
 // AWS-Lambda
 export const handler = api.handle((event: APIGatewayProxyEvent) => await api.run());
 
