@@ -22,25 +22,23 @@ import { RequestInterface, ResponseInterface, HttpStatusCode } from '@serverless
 // No matter which provider you use, the signature is the same.
 import { createApi } from '@serverless-framework/aws-lambda';
 
-const API_VERSION = '1.0.0';
-
 const api = createApi({
     base: '/api',
 });
 
-api.get('/api/users', (req: RequestInterface, res: ResponseInterface) => {});
-api.post('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
-api.put('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
-api.patch('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
-api.delete('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
-api.any('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => {});
+api.get('/api/users', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
+api.post('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
+api.put('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
+api.patch('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
+api.delete('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
+api.any('/api/users/:id', (req: RequestInterface, res: ResponseInterface) => res.sendStatus(HttpStatusCode.OK));
 ```
 
 ## Parameters
 {% highlight typescript %}
 // ...
 
-api.get('/users/:id', (req: RequestInterface<{params: {id: string}}>, res: ResponseInterface) => {
+api.get('/users/:id', (req: RequestInterface<{id: string}>, res: ResponseInterface) => {
         req.status(HttpStatusCode.OK).json({
         id: params.id,
     });
@@ -48,7 +46,7 @@ api.get('/users/:id', (req: RequestInterface<{params: {id: string}}>, res: Respo
 
 // Wildcard routes are supported as well:
 // url: /files/avatars/1000/avatar.png
-api.get('/files/+filename', (req: RequestInterface<{params: {filename: string}}>, res: ResponseInterface) => {
+api.get('/files/+filename', (req: RequestInterface<{filename: string}>, res: ResponseInterface) => {
     // filename: /avatars/1000/avatar.png
     req.status(HttpStatusCode.OK).json({
         filename: params.filename,
