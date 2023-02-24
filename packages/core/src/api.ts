@@ -73,8 +73,9 @@ export class BaseApi {
         return this;
     }
 
-    public group(prefix: string, cb: (api: this) => void, beforeHandlers: Array<Handler>, afterHandlers: Array<Handler>) {
+    public group(prefix: string, cb: (api: this) => void, beforeHandlers: Array<Handler> = [], afterHandlers: Array<Handler> = []) {
         this.router.applyPrefix(prefix);
+
         this.router.applyBeforeMiddlewares(beforeHandlers);
         this.router.applyAfterMiddlewares(afterHandlers);
 
@@ -94,8 +95,8 @@ export class BaseApi {
                 req.params = route.params;
             }
 
-            const handlers = route.handlers.filter(handler => handler.length === 2 || handler.length === 3) as Array<RequestHandler>;
-            const routeErrorHandlers = route.handlers.filter(handler => handler.length === 4) as Array<ErrorHandler>;
+            const handlers = route.handlers.filter((handler: Handler) => handler.length === 2 || handler.length === 3) as Array<RequestHandler>;
+            const routeErrorHandlers = route.handlers.filter((handler: Handler) => handler.length === 4) as Array<ErrorHandler>;
 
             for (const handler of handlers) {
                 if (res._status !== 'processing') break;
