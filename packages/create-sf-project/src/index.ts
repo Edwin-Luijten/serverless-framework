@@ -1,3 +1,3 @@
 import { init } from './app.js';
 
-init();
+(async () => await init())();

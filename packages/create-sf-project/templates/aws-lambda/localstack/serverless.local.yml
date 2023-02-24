@@ -1,4 +1,4 @@
-service: api
+service: __project_name__
 configValidationMode: error
 
 provider:
@@ -43,4 +43,4 @@ resources:
         Name: ApiGateway
         Tags:
           - Key: _custom_id_
-            Value: foo
+            Value: __project_name__

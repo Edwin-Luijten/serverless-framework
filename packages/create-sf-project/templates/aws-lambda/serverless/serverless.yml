@@ -1,4 +1,4 @@
-service: api
+service: __project_name__
 configValidationMode: error
 
 provider:

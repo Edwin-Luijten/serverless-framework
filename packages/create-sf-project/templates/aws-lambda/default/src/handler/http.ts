@@ -8,7 +8,7 @@ const api = new Api({
 
 const VERSION = '0.0.1';
 
-api.get('ping', (req: RequestInterface, res: ResponseInterface) => {
+api.get('version', (req: RequestInterface, res: ResponseInterface) => {
     res.status(HttpStatusCode.OK).json({
         version: VERSION,
     });

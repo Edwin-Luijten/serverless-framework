@@ -1,96 +1,172 @@
 import * as process from 'node:process';
-import * as https from 'node:https';
 import * as path from 'node:path';
 import * as os from 'node:os';
-import { Command } from 'commander';
+import * as url from 'node:url';
+import * as https from 'node:https';
+import * as console from 'node:console';
+import prompts from 'prompts';
+import minimist from 'minimist';
+import { red, yellow, green, blue, white, bold, cyan } from 'kolorist';
+import fs from 'fs-extra';
+import semver from 'semver';
+import { spawn } from 'cross-spawn';
 // @ts-ignore
 import packageJson from './package.json' assert { type: 'json' };
 // @ts-ignore
 import providerConfig from './providers.json' assert { type: 'json' };
-import chalk from 'chalk';
-import semver from 'semver/preload.js';
-import fs from 'fs-extra';
-import { spawn } from 'cross-spawn';
+import { glob } from './glob.js';
+import deepMerge from './merge.js';
+import sortDependencies from './sort.js';
 
-let app = new Command(packageJson.name);
-let _projectName: string | undefined;
-let _provider: string | undefined;
-let _addons: string | undefined;
+let result: {
+    projectName?: string
+    packageName?: string
+    provider?: string
+    features?: Array<string>
+} = {
+    projectName: '',
+};
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+const afterInstallTips: Array<Tip> = [];
+
+type Tip = {
+    title: string;
+    tips: Array<string>;
+}
 type Addon = {
-    files?: Array<string>;
+    requires?: string;
+    filesWithPlaceholders?: Array<string>;
     devDependencies?: Array<string>;
     dependencies?: Array<string>;
+    afterInstallTips?: Array<string>;
 }
 
-type Dependencies = {
-    dependencies: Array<string>;
-    devDependencies: Array<string>;
+// function isValidPackageName(projectName) {
+//     return /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(projectName)
+// }
+
+function toValidPackageName(projectName: string) {
+    return projectName
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/^[._]/, '')
+        .replace(/[^a-z0-9-~]+/g, '-')
 }
 
-export function init() {
-    app.description('Bootstrap your next SF project')
-        .version(packageJson.version);
+export async function init() {
+    console.log('');
+    console.log('Serverless Framework - Kick-starting your next serverless project');
+    console.log('');
 
-    app.arguments('<project-directory> <provider>')
-        .usage(`${chalk.green('<project-directory>')} ${chalk.magenta('<provider>')} [options]`)
-        .option('--addons', '')
-        .action((name, provider, addons) => {
-            _projectName = name;
-            _provider = provider;
-            _addons = addons;
-        }).on('--help', () => {
-        console.log(`    ${chalk.green('<project-directory>')} is required.`);
-        console.log(`    ${chalk.magenta('<provider>')} is required.`);
+    const argv = minimist(process.argv.slice(2), {});
+
+    let targetDir = argv._[0];
+
+    const promptsList = [] as Array<prompts.PromptObject>;
+
+    if (!targetDir) {
+        promptsList.push({
+            name: 'projectName',
+            type: targetDir ? null : 'text',
+            message: 'Project name:',
+            validate: (input) => input.length > 0,
+            onState: (state) => (targetDir = String(state.value).trim())
+        });
+    }
+
+    promptsList.push({
+        name: 'provider',
+        type: () => (argv.provider ? null : 'select'),
+        message: 'Select a provider',
+        initial: 0,
+        choices: (prev, answers) => [
+            {
+                title: 'AWS-Lambda',
+                value: 'aws-lambda'
+            },
+            // {
+            //     title: 'Google Cloud functions',
+            //     value: 'google-cloud-functions'
+            // },
+        ]
     });
 
-    app.parse(process.argv);
+    if (!argv.features) {
+        promptsList.push({
+            name: 'features',
+            type: () => (argv.features ? null : 'multiselect'),
+            message: 'Select features to add',
+            initial: 0,
+            onState: (state) => {
+                state.value.unshift('default')
+            },
+            choices: (prev, answers) => {
+                const provider = argv.provider ?? answers.provider;
 
-    if (typeof _projectName === 'undefined') {
-        console.error('Please specify the project directory:');
-        console.log(`${chalk.cyan(app.name)} ${chalk.green('<project-directory>')}`);
-        console.log();
-
-        console.log('For example:');
-        console.log(`${chalk.cyan(app.name)} ${chalk.green('<project-directory>')} aws-lambda`);
-
-        process.exit(1);
+                switch (provider) {
+                    case 'aws-lambda':
+                        return [
+                            {
+                                title: 'Serverless',
+                                value: 'serverless'
+                            },
+                            {
+                                title: 'Localstack',
+                                value: 'localstack'
+                            },
+                        ];
+                    case 'google':
+                        return [
+                            {
+                                title: 'Serverless',
+                                value: 'serverless'
+                            },
+                        ];
+                }
+            }
+        });
     }
 
-    if (typeof _provider === 'undefined') {
-        console.error('Please specify a provider:');
-        console.log(`${chalk.cyan(app.name)} ${chalk.green('<project-directory>')} ${chalk.magenta('<provider>')}`);
-        console.log();
+    result = await prompts(promptsList,
+        {
+            onCancel: () => {
+                console.error('Error: ' + red('✖') + ' Operation cancelled');
+                process.exit(1);
+            }
+        }
+    );
 
-        console.log('For example:');
-        console.log(`${chalk.cyan(app.name)} <project-directory> ${chalk.green('aws-lambda')}`);
+    if (!result.projectName) result.projectName = targetDir;
+    if (!result.provider) result.provider = argv.provider;
+    if (!result.features) result.features = argv.features?.split(',').map((item: string) => item.trim()) ?? [];
 
-        process.exit(1);
+    result.features?.unshift('default');
+
+    try {
+        const latest = await checkForLatestVersion();
+        if (latest && semver.lt(packageJson.version, latest)) {
+            console.error(`${yellow(`You are running 'create-project' ${packageJson.version}, which is behind the latest release (${latest}`)}`);
+            console.log('')
+        }
+    } catch (e: any) {
+        // console.error('Error: ' + red('✖'), e);
+        // console.log('');
     }
+
+    await createProject(result.projectName ?? '');
 }
-
-checkForLatestVersion().then(latest => {
-    if (latest && semver.lt(packageJson.version, latest)) {
-        console.error(`${chalk.yellow(`You are running 'create-project' ${packageJson.version}, which is behind the latest release (${latest}`)}`);
-    }
-
-    console.debug('createProject');
-    createProject(_projectName ?? '');
-}).catch((e: any) => {
-    console.error('error:', e);
-
-    console.debug('createProject');
-    createProject(_projectName ?? '');
-});
 
 async function createProject(projectName: string): Promise<void> {
     const root = path.resolve(projectName);
     const name = path.basename(root);
 
-    fs.ensureDirSync(projectName);
+    console.log('');
+    console.log(`Creating a new project in ${green(root)}`);
+    console.log('');
 
-    console.log(`Creating a new project in ${chalk.green(root)}`);
-    console.log();
+    fs.ensureDirSync(projectName);
 
     const packageJson = {
         name: name,
@@ -100,44 +176,37 @@ async function createProject(projectName: string): Promise<void> {
 
     fs.writeFileSync(path.join(root, 'package.json'), JSON.stringify(packageJson, null, 2) + os.EOL);
 
-    const originalDirectory = process.cwd();
     process.chdir(root);
 
-    const config = providerConfig[_provider];
-    console.log(_provider, providerConfig);
-    console.log('')
-    await install(config);
+    if (result.features) {
+        await install(name, result.features, root);
+    }
 
-    if (_addons && _addons.length) {
-        const addons = _addons.split(',').map(addon => addon.toLowerCase().trim());
-        await installAddons(addons, originalDirectory);
+    console.log('');
+    console.log(`${green('✔')} ${bold(white('Installation complete'))}`);
+
+    if (afterInstallTips.length > 0) {
+        console.log('');
+        afterInstallTips.forEach(tip => {
+            console.log(`${blue('❯')} ${cyan(tip.title)}`);
+            tip.tips.forEach(line => console.log(`  ` + green(line.replace(new RegExp('__project_name__', 'g'), toValidPackageName(name ?? '')))));
+            console.log('');
+        });
     }
 }
 
-async function install(dependencies: Dependencies): Promise<void> {
-    if (dependencies.dependencies) {
-        try {
-            await runNpmInstall(dependencies.dependencies, false);
-        } catch (e: any) {
-            console.error(`failed to install dependencies: ${e.message}`);
-            process.exit(1);
-        }
-    }
-
-    if (dependencies.devDependencies) {
-        try {
-            await runNpmInstall(dependencies.devDependencies, true);
-        } catch (e: any) {
-            console.error(`failed to install dev dependencies: ${e.message}`);
-            process.exit(1);
-        }
-    }
-}
-
-async function installAddons(addons: Array<string>, packageRoot: string): Promise<void> {
+async function install(name: string, addons: Array<string>, packageRoot: string, logIndent: string = ''): Promise<void> {
     for (const addon of addons) {
-        const config = providerConfig[_provider][addon] as Addon | undefined;
+        const config = providerConfig[result.provider].addons[addon] as Addon | undefined;
         if (!config) continue;
+
+        console.info(`${logIndent}Installing ${green(addon)}`);
+
+        if (config?.requires) {
+            const requirements = config.requires.split(',')
+            const skipInstall = requirements.some(r => addons.indexOf(r) >= 0)
+            if (!skipInstall) await install(name, requirements, packageRoot, `  ${blue('❯')} `);
+        }
 
         if (config?.dependencies) {
             try {
@@ -157,8 +226,47 @@ async function installAddons(addons: Array<string>, packageRoot: string): Promis
             }
         }
 
-        if (config?.files) {
+        if (config?.afterInstallTips) {
+            afterInstallTips.push({
+                title: 'Localstack',
+                tips: config.afterInstallTips,
+            });
+        }
 
+        if (!fs.pathExistsSync(`${__dirname}templates/${result.provider}/${addon}`)) {
+            console.log('failed', `${__dirname}templates/${result.provider}/${addon}`);
+            return
+        }
+
+        copyRecursiveSync(`${__dirname}templates/${result.provider}/${addon}`, `./`);
+
+        let files = await glob(`${__dirname}templates/${result.provider}/${addon}/**/*`, {
+            nodir: true,
+        });
+
+        files = files.map(path => path.replace(`${__dirname}templates/${result.provider}/${addon}`, `./`));
+
+        files.forEach(filePath => {
+            const file = path.basename(filePath);
+
+            if (config?.filesWithPlaceholders) {
+                config.filesWithPlaceholders.forEach(fileToModify => {
+                    if (path.basename(file) === fileToModify) {
+                        let contents = fs.readFileSync(file).toString();
+                        contents = contents.replace(new RegExp('__project_name__', 'g'), toValidPackageName(name ?? ''));
+                        fs.writeFileSync(file, contents);
+                    }
+                });
+            }
+        });
+
+        const pkgJsonPath = `${__dirname}templates/${result.provider}/${addon}/package.json`;
+        if (fs.existsSync(pkgJsonPath) && fs.existsSync('./package.json')) {
+            const current = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+            const newPackage = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));
+            const merged = sortDependencies(deepMerge(current, newPackage));
+
+            fs.writeFileSync('./package.json', JSON.stringify(merged, null, 2) + os.EOL);
         }
     }
 }
@@ -167,7 +275,7 @@ function runNpmInstall(dependencies: Array<string>, dev: boolean): Promise<void>
     const args = [
         'install',
         '--save-exact',
-        '--loglevel', 'error'
+        '--loglevel', 'silent'
     ]
 
     if (dev) args.push('--save-dev');
@@ -175,9 +283,11 @@ function runNpmInstall(dependencies: Array<string>, dev: boolean): Promise<void>
 
     return new Promise((resolve, reject) => {
         const child = spawn('npm', args.concat(dependencies), {stdio: 'inherit'});
+
         child.on('error', (e: Error) => {
             reject(e);
         });
+
         child.on('close', code => {
             if (code !== 0) {
                 return reject({
@@ -199,8 +309,23 @@ function checkForLatestVersion(): Promise<string> {
             }
 
             let body = '';
+
             res.on('data', data => (body += data));
             res.on('end', () => resolve(JSON.parse(body).latest));
         });
     })
+}
+
+async function copyRecursiveSync(src: string, dest: string) {
+    let files = await glob(`${src}/**/*`, {
+        nodir: true,
+    });
+
+    for (const file of files) {
+        if (file.endsWith('package.json')) {
+            continue;
+        }
+
+        fs.copySync(file, `${dest}/${file.replace(src, ``)}`);
+    }
 }

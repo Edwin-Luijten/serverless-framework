@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "build:local": "serverless webpack --stage local --config serverless.local.yml",
+    "deploy:local": "serverless deploy --stage local --config serverless.local.yml",
+    "watch": "node_modules/.bin/nodemon --config nodemon.local.json",
+    "start": "npm run deploy:local && npm run watch"
+  }
+}

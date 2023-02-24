@@ -1,33 +1,37 @@
 {
-  "name": "@serverless-framework/create-sf-project",
+  "name": "@serverless-framework/create",
   "main": "./src/index.ts",
   "version": "0.0.1-alpha-1",
   "type": "module",
-  "private": true,
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && cp README.md dist/README.md && cp package.json dist/package.json && cp providers.json dist/providers.json && cp -r templates dist/templates"
+    "build": "tsc -p tsconfig.build.json && cp package.json dist/package.json && cp providers.json dist/providers.json && cp -r templates dist/templates"
   },
   "bin": {
-    "@serverless-framework/create-sf-project": "dist/index.js"
+    "create-sf-project": "dist/index.js"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "README.md",
+    "LICENSE.md"
   ],
   "dependencies": {
-    "chalk": "^5.2.0",
-    "commander": "^10.0.0",
     "cross-spawn": "^7.0.3",
     "fs-extra": "^11.1.0",
+    "glob": "^8.1.0",
+    "minimist": "^1.2.8",
     "prompts": "^2.4.2",
-    "semver": "^7.3.8"
+    "semver": "^7.3.8",
+    "kolorist": "^1.7.0"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
     "@types/fs-extra": "^11.0.1",
+    "@types/glob": "^8.0.1",
+    "@types/minimist": "^1.2.2",
     "@types/prompts": "^2.4.2",
     "@types/semver": "^7.3.13"
   }
