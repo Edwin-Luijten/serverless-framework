@@ -17,6 +17,6 @@
     "@serverless-framework/core": "^0.0.1-alpha-1.4"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.110"
+    "@types/aws-lambda": "^8.10.111"
   }
 }
