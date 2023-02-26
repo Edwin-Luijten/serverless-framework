@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-alpha-1.4](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/create-project@0.1.0-alpha-1.3...@serverless-framework/create-project@0.1.0-alpha-1.4) (2023-02-26)
+
+
+### Bug Fixes
+
+* don't copy package.json after build ([2483bb4](https://github.com/Edwin-Luijten/serverless-framework/commit/2483bb493e13c9f54a409135b058392f960cd5e3))
+
+
+
+
+
 # [0.1.0-alpha-1.3](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/create-project@0.1.0-alpha-1.2...@serverless-framework/create-project@0.1.0-alpha-1.3) (2023-02-26)
 
 
