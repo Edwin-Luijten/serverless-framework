@@ -10,24 +10,34 @@ import { red, yellow, green, blue, white, bold, cyan } from 'kolorist';
 import fs from 'fs-extra';
 import semver from 'semver';
 import { spawn } from 'cross-spawn';
-// @ts-ignore
-import packageJson from './package.json' assert { type: 'json' };
-// @ts-ignore
-import providerConfig from './providers.json' assert { type: 'json' };
-import { glob } from './glob.js';
+
+import glob from 'tiny-glob';
 import deepMerge from './merge.js';
 import sortDependencies from './sort.js';
 
-let result: {
-    projectName?: string
-    packageName?: string
-    provider?: string
-    features?: Array<string>
-} = {
-    projectName: '',
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+const packageJson = JSON.parse(fs.readFileSync(__dirname + '/package.json', 'utf8'));
+const providerConfig = JSON.parse(fs.readFileSync(__dirname + '/providers.json', 'utf8')) as {
+    [key: string]: {
+        features: {
+            [key: string]: {
+                dependencies?: Array<string>;
+                devDependencies?: Array<string>;
+                filesWithPlaceholders?: Array<string>
+                requires?: Array<string>,
+                afterInstallTips?: Array<string>,
+            }
+        }
+    }
 };
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+let result: prompts.Answers<string> = {
+    projectName: '',
+    provider: '',
+    features: [],
+};
+
 const afterInstallTips: Array<Tip> = [];
 
 type Tip = {
@@ -81,7 +91,7 @@ export async function init() {
         type: () => (argv.provider ? null : 'select'),
         message: 'Select a provider',
         initial: 0,
-        choices: (prev, answers) => [
+        choices: () => [
             {
                 title: 'AWS-Lambda',
                 value: 'aws-lambda'
@@ -151,8 +161,8 @@ export async function init() {
             console.log('')
         }
     } catch (e: any) {
-        // console.error('Error: ' + red('✖'), e);
-        // console.log('');
+        console.error('Error: ' + red('✖'), e);
+        console.log('');
     }
 
     await createProject(result.projectName ?? '');
@@ -195,16 +205,16 @@ async function createProject(projectName: string): Promise<void> {
     }
 }
 
-async function install(name: string, addons: Array<string>, packageRoot: string, logIndent: string = ''): Promise<void> {
-    for (const addon of addons) {
-        const config = providerConfig[result.provider].addons[addon] as Addon | undefined;
+async function install(name: string, features: Array<string>, packageRoot: string, logIndent = ''): Promise<void> {
+    for (const addon of features) {
+        const config = providerConfig[result.provider].features[addon] as Addon | undefined;
         if (!config) continue;
 
         console.info(`${logIndent}Installing ${green(addon)}`);
 
         if (config?.requires) {
             const requirements = config.requires.split(',')
-            const skipInstall = requirements.some(r => addons.indexOf(r) >= 0)
+            const skipInstall = requirements.some(r => features.indexOf(r) >= 0)
             if (!skipInstall) await install(name, requirements, packageRoot, `  ${blue('❯')} `);
         }
 
@@ -238,10 +248,10 @@ async function install(name: string, addons: Array<string>, packageRoot: string,
             return
         }
 
-        copyRecursiveSync(`${__dirname}templates/${result.provider}/${addon}`, `./`);
+        await copyRecursiveSync(`${__dirname}templates/${result.provider}/${addon}`, `./`);
 
         let files = await glob(`${__dirname}templates/${result.provider}/${addon}/**/*`, {
-            nodir: true,
+            filesOnly: true,
         });
 
         files = files.map(path => path.replace(`${__dirname}templates/${result.provider}/${addon}`, `./`));
@@ -317,8 +327,8 @@ function checkForLatestVersion(): Promise<string> {
 }
 
 async function copyRecursiveSync(src: string, dest: string) {
-    let files = await glob(`${src}/**/*`, {
-        nodir: true,
+    const files = await glob(`${src}/**/*`, {
+        filesOnly: true,
     });
 
     for (const file of files) {

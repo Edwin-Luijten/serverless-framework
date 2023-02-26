@@ -1,6 +1,6 @@
 {
   "aws-lambda": {
-    "addons": {
+    "features": {
       "default": {
         "dependencies": [
           "@serverless-framework/core",
@@ -39,7 +39,7 @@
           "serverless-webpack"
         ]
       },
-      "localstack": {
+      "localstack":   {
         "requires": "serverless",
         "filesWithPlaceholders": [
           "serverless.local.yml",
