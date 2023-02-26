@@ -4,7 +4,7 @@
     "name": "Edwin Luijten"
   },
   "main": "./src/index.ts",
-  "version": "0.1.0-alpha-1.0",
+  "version": "0.1.0-alpha-1.1",
   "type": "module",
   "publishConfig": {
     "access": "public",
