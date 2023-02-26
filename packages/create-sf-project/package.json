@@ -11,12 +11,13 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "node ./esbuild.mjs && cp package.json dist/package.json && cp providers.json dist/providers.json && rm -rf dist/templates && cp -r templates dist/templates"
+    "build": "node ./esbuild.mjs && cp providers.json dist/providers.json && rm -rf dist/templates && cp -r templates dist/templates"
   },
   "bin": {
     "create-sf-project": "dist/index.js"
   },
   "files": [
+    "package.json",
     "dist/**/*",
     "templates/**/*",
     "README.md",
