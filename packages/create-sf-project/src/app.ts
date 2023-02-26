@@ -70,6 +70,17 @@ export async function init() {
     console.log('Serverless Framework - Kick-starting your next serverless project');
     console.log('');
 
+    try {
+        const latest = await checkForLatestVersion();
+        if (latest && semver.lt(packageJson.version, latest)) {
+            console.error(`${yellow(`You are running 'create-project' ${packageJson.version}, which is behind the latest release (${latest})`)}`);
+            console.log('')
+        }
+    } catch (e: any) {
+        console.error('Error: ' + red('✖'), e);
+        console.log('');
+    }
+
     const argv = minimist(process.argv.slice(2), {});
 
     let targetDir = argv._[0];
@@ -153,17 +164,6 @@ export async function init() {
     if (!result.features) result.features = argv.features?.split(',').map((item: string) => item.trim()) ?? [];
 
     result.features?.unshift('default');
-
-    try {
-        const latest = await checkForLatestVersion();
-        if (latest && semver.lt(packageJson.version, latest)) {
-            console.error(`${yellow(`You are running 'create-project' ${packageJson.version}, which is behind the latest release (${latest}`)}`);
-            console.log('')
-        }
-    } catch (e: any) {
-        console.error('Error: ' + red('✖'), e);
-        console.log('');
-    }
 
     await createProject(result.projectName ?? '');
 }
