@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-alpha-1.2](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/create-project@0.1.0-alpha-1.1...@serverless-framework/create-project@0.1.0-alpha-1.2) (2023-02-26)
+
+
+### Bug Fixes
+
+* move version check after banner ([191c5a3](https://github.com/Edwin-Luijten/serverless-framework/commit/191c5a3db59a8af6c6f09cfde885dcfcf5157965))
+
+
+
+
+
 # 0.1.0-alpha-1.1 (2023-02-26)
 
 
