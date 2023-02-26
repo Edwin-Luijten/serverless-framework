@@ -1,4 +1,4 @@
-export function decodeBody(body: any): string {
+export function decodeBody(body: string): string {
     try {
         return JSON.parse(body);
     } catch (e) {

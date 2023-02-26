@@ -100,6 +100,7 @@ export class BaseApi {
             for (const handler of handlers) {
                 if (res._status !== 'processing') break;
 
+                // eslint-disable-next-line no-async-promise-executor
                 await new Promise<void>(async (resolve) => {
                     try {
                         const rtrn = await handler(req, res, () => {
@@ -132,6 +133,7 @@ export class BaseApi {
         for (const handler of handlers) {
             if (res._status !== 'processing') break;
 
+            // eslint-disable-next-line no-async-promise-executor
             await new Promise<void>(async (resolve) => {
                 try {
                     const rtrn = await handler(e, req, res, () => {

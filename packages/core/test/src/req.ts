@@ -6,6 +6,7 @@ export const req: RequestInterface = {
     context: {},
     cookies: {},
     headers: {},
+    query: {},
     ip: '',
     isBase64Encoded: false,
     method: '',

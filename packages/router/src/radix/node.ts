@@ -15,14 +15,14 @@ const enum CharCode {
 
 export class Node<Handler> {
     public type: number = NodeType.Static;
-    public indices: string = '';
-    public path: string = '';
+    public indices = '';
+    public path = '';
     public priority = 0;
-    public wildcardChild: boolean = false;
+    public wildcardChild = false;
     public handlers: Array<Handler> = [];
     public children: Array<Node<Handler>> = [];
 
-    public constructor(type: number = NodeType.Static, path: string = '', indices: string = '', priority: number = 0, ...handlers: Array<Handler>) {
+    public constructor(type: number = NodeType.Static, path = '', indices = '', priority = 0, ...handlers: Array<Handler>) {
         this.type = type;
         this.path = path;
 
@@ -216,7 +216,7 @@ export class Node<Handler> {
 
     private findWildcard(path: string): { wildcard: string; i: number; valid: boolean } {
         for (let i = 0; i < path.length; i++) {
-            let char = path.charCodeAt(i);
+            const char = path.charCodeAt(i);
             if (char !== CharCode.Colon && char !== CharCode.WildCard) {
                 continue;
             }

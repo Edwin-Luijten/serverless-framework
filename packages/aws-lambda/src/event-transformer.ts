@@ -48,7 +48,7 @@ export function eventTransformer(event: APIGatewayProxyEvent | APIGatewayProxyEv
     if (req.hasHeader('content-type') && req.getHeader('content-type') === 'application/x-www-form-urlencoded') {
         req.body = querystring.parse(body ?? '');
     } else if (typeof body === 'object') {
-
+        req.body = body;
     } else {
         req.body = decodeBody(body ?? '{}');
     }

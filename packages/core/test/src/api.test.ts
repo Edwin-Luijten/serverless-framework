@@ -12,8 +12,12 @@ const videos = (api: BaseApi) => {
         res.sendStatus(HttpStatusCode.OK);
     });
 
-    api.get('/:id', (req: RequestInterface, res: ResponseInterface) => {
-        res.sendStatus(HttpStatusCode.OK);
+    api.get('/:id', (req: RequestInterface<{id: string}, {foo: string}, {bar: string}>, res: ResponseInterface) => {
+        res.status(HttpStatusCode.OK).json({
+            id: req.params.id,
+            query: req.query.foo,
+            body: req.body.bar,
+        });
     });
 }
 

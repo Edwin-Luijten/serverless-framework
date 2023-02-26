@@ -9,8 +9,8 @@ export class Response implements ResponseInterface {
     _request: RequestInterface;
     headers: { [key: string]: Array<string> } = {};
     cookies: { [key: string]: string } = {};
-    isBase64Encoded: boolean = false;
-    _etag: boolean = false;
+    isBase64Encoded = false;
+    _etag = false;
     statusCode: number = HttpStatusCode.OK;
     _response: any;
     _status: 'processing' | 'end' | 'error' = 'processing';
@@ -33,7 +33,7 @@ export class Response implements ResponseInterface {
         return this.headers[name.toLowerCase()]?.toString();
     }
 
-    setHeader(name: string, value: string, append: boolean = false): this {
+    setHeader(name: string, value: string, append = false): this {
         const _name = name.toLowerCase();
         this.headers[_name] = append ? this.hasHeader(_name) ? this.headers[_name].concat([value]) : [value] : [value];
         return this;
@@ -119,12 +119,12 @@ export class Response implements ResponseInterface {
         return this;
     }
 
-    etag(enable: boolean = true): this {
+    etag(enable = true): this {
         this._etag = enable;
         return this;
     }
 
-    cache(maxAge: string | number | boolean, isPrivate: boolean = false): this {
+    cache(maxAge: string | number | boolean, isPrivate = false): this {
         if (typeof maxAge === 'string') this.setHeader('Cache-Control', maxAge);
         else if (typeof maxAge === 'boolean' && !maxAge) this.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
         else {

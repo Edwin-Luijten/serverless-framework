@@ -1,4 +1,5 @@
 import { IncomingHttpHeaders } from 'node:http';
+import { ParsedUrlQuery } from 'querystring';
 
 export type JsonValue =
     | string
@@ -33,10 +34,12 @@ export type CookieOptions = {
 
 export type Context = { [key: string]: string };
 
-export interface RequestInterface<P = ParamsDictionary, C = Dictionary, Res = any, ReqBody = any, Query = {}> {
-    params: P;
+export interface RequestInterface<Params = ParamsDictionary, Query = ParsedUrlQuery, ReqBody = any, Ctx = Dictionary> {
+    params: Params;
 
-    context: C;
+    context: Ctx;
+
+    query: Query;
 
     headers: IncomingHttpHeaders;
 
@@ -101,17 +104,17 @@ export type Send<Res = any, T = ResponseInterface<Res>> = (body?: Res) => T;
 export type NextFunction = (err?: any) => void;
 
 export type RequestHandler<
-    P = any,
-    C = any,
-    Res = any,
-    Req = any,
-    Query = {}
-> = (req: RequestInterface<P, C, Res, Req, Query>, res: ResponseInterface, next?: NextFunction) => JsonValue | void;
+    Params = any,
+    Query = any,
+    ReqBody = any,
+    Ctx = any,
+> = (req: RequestInterface<Params, Query, ReqBody, Ctx>, res: ResponseInterface, next?: NextFunction) => JsonValue | void;
+
 export type ErrorHandler<
-    P = ParamsDictionary,
-    Res = any,
-    Req = any,
-    Query = {}
-> = (err: any, req: RequestInterface<P, Res, Req, Query>, res: ResponseInterface, next?: NextFunction) => JsonValue | void;
+    Params = any,
+    Query = any,
+    ReqBody = any,
+    Ctx = any,
+> = (err: any, req: RequestInterface<Params, Query, ReqBody, Ctx>, res: ResponseInterface, next?: NextFunction) => JsonValue | void;
 
 export type Handler = RequestHandler | ErrorHandler;

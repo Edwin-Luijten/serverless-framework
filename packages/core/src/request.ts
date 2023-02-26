@@ -6,13 +6,13 @@ export class Request implements RequestInterface {
     query: ParsedUrlQuery = {};
     headers: { [key: string]: string | undefined } = {};
     body: any = {};
-    path: string = '';
-    method: string = 'GET';
+    path = '';
+    method = 'GET';
     context: Context = {};
     userAgent: string | undefined;
     cookies: { [key: string]: string } = {};
     ip: string | null = null;
-    isBase64Encoded: boolean = false;
+    isBase64Encoded = false;
     clientCountry: string | undefined;
 
     getHeader(name: string): string | undefined {
