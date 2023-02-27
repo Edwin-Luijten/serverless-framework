@@ -78,6 +78,18 @@ api.group('/users', (api: Api) => {
         });
     });
 });
+
+// Nested groups
+const videos = (api: Api) => {}
+const articles = (api: Api) => {}
+
+const content = (api: Api) => {
+    api.group('/videos', videos);
+    api.group('/articles', articles)
+}
+
+api.group('/content', content);
+
 {% endhighlight %}
 
 ## Middlewares
