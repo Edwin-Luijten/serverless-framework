@@ -5,7 +5,7 @@ nav_order: 1
 permalink: 
 ---
 
-![](/serverless-framework/assets/images/logo-alt.png)
+![](/serverless-framework/assets/images/logo.png)
 {: .text-center }
 
 > Quickly start your next serverless api project.  
