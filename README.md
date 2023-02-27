@@ -15,4 +15,10 @@
 
 Read the documentation [here](https://edwin-luijten.github.io/serverless-framework/) to get started.
 
+Or run ```npx @serverless-framework/create-sf```
+
+<p align="center" width="100%">
+    <img src="cli.png" alt="cli"/>
+</p>
+
 ## Contributing
