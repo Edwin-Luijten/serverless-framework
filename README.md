@@ -1,4 +1,6 @@
-<img src="logo.png" align="right" alt="logo"/>
+<p align="center">
+    <img src="logo.png" align="right" width="400px" alt="logo"/>
+</p>
 
 # Serverless Framework 
 
