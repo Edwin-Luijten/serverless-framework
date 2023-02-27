@@ -1,5 +1,5 @@
-<p align="center">
-    <img src="logo.png" align="right" width="400px" alt="logo"/>
+<p align="center" width="100%">
+    <img src="logo.png" width="400px" alt="logo"/>
 </p>
 
 > Quickly start your next serverless api project.
