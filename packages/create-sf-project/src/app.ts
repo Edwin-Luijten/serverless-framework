@@ -252,6 +252,7 @@ async function install(name: string, features: Array<string>, packageRoot: strin
 
         let files = await glob(`${__dirname}templates/${result.provider}/${addon}/**/*`, {
             filesOnly: true,
+            absolute: true,
         });
 
         files = files.map(path => path.replace(`${__dirname}templates/${result.provider}/${addon}`, `./`));
@@ -329,6 +330,7 @@ function checkForLatestVersion(): Promise<string> {
 async function copyRecursiveSync(src: string, dest: string) {
     const files = await glob(`${src}/**/*`, {
         filesOnly: true,
+        absolute: true,
     });
 
     for (const file of files) {
@@ -336,6 +338,11 @@ async function copyRecursiveSync(src: string, dest: string) {
             continue;
         }
 
+        if (!fs.pathExistsSync(file)) {
+            console.log(__dirname);
+            console.error(file, ' does not exist');
+            console.log(`${dest}/${file.replace(src, ``)}`);
+        }
         fs.copySync(file, `${dest}/${file.replace(src, ``)}`);
     }
 }

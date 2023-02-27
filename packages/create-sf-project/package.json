@@ -1,5 +1,5 @@
 {
-  "name": "@serverless-framework/create-project",
+  "name": "@serverless-framework/create-sf",
   "author": {
     "name": "Edwin Luijten"
   },
@@ -14,7 +14,7 @@
     "build": "node ./esbuild.mjs && cp providers.json dist/providers.json && rm -rf dist/templates && cp -r templates dist/templates"
   },
   "bin": {
-    "create-sf-project": "dist/index.js"
+    "create-sf": "dist/index.js"
   },
   "files": [
     "package.json",
