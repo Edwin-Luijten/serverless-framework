@@ -45,7 +45,6 @@ api.get('/version', (req: RequestInterface, res: ResponseInterface) => {
 });
 
 export const handler = api.handle((event: APIGatewayProxyEvent | APIGatewayProxyEventV2, context: Context) => await api.run());
-
 {% endhighlight %}
 
 ### Parameters

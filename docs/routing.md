@@ -20,9 +20,9 @@ nav_order: 4
 {% highlight typescript %}
 import { RequestInterface, ResponseInterface, HttpStatusCode } from '@serverless-framework/core';
 // No matter which provider you use, the signature is the same.
-import { createApi } from '@serverless-framework/aws-lambda';
+import { Api } from '@serverless-framework/<provider>';
 
-const api = createApi({
+const api = new Api({
     base: '/api',
 });
 
@@ -42,8 +42,6 @@ api.any('/api/users/:id', (req: RequestInterface, res: ResponseInterface) =>
 
 ## Parameters
 {% highlight typescript %}
-// ...
-
 api.get('/users/:id', (req: RequestInterface<{id: string}>, res: ResponseInterface) => {
     req.status(HttpStatusCode.OK).json({
         id: params.id,
@@ -60,10 +58,19 @@ api.get('/files/+file', (req: RequestInterface<{file: string}>, res: ResponseInt
 });
 {% endhighlight %}
 
+## Request typing
+It's possible to define types for your parameters, query and body.
+
+{% highlight typescript %}
+const handler = (req: RequestInterface<{title: string}, {page: number}, {text: string}>, res) => {
+    const title = req.params.title;
+    const page = req.query.page;
+    const text = req.body.text;
+}
+{% endhighlight %}
+
 ## Grouping 
 {% highlight typescript %}
-// ...
-
 api.group('/users', (api: Api) => {
     api.get('/:id', (req: RequestInterface<{id: string}>, res: ResponseInterface) => {
         req.status(HttpStatusCode.OK).json({
@@ -85,8 +92,6 @@ Middlewares will be executed by the order you define them.
 
 ### Per route
 {% highlight typescript %}
-// ...
-
 function authMiddleware(req: RequestInterface, res: ResponseInterface, next?: NextFunction) {
     if (req.hasHeader('Authorization')) {
         res.sendStatus(HttpStatusCode.UNAUTHORIZED);
@@ -106,8 +111,6 @@ api.get('/users/:id', authMiddleware, (req: RequestInterface<{id: string}>, res:
 ### Per group
 
 {% highlight typescript %}
-// ...
-
 api.group('/users', (router: Router) => {
     router.get('/:id', (req: RequestInterface<{id: string}>, res: ResponseInterface) => {
         req.status(HttpStatusCode.OK).json({
@@ -115,24 +118,18 @@ api.group('/users', (router: Router) => {
         });
     });
 }, authMiddleware, validationErrorMiddleware);
-
 {% endhighlight %}
 
 ### Globally
 
 {% highlight typescript %}
-// ...
-
 api.use(authMiddleware, validationErrorMiddleware);
-
 {% endhighlight %}
 
 ## Error handlers
 You can define error handlers the same way as middlewares, the signature is slightly different.
 Also for error handlers, the order is respected.  
 {% highlight typescript %}
-// ...
-
 function validationErrorMiddleware(err: any, req: RequestInterface, res: ResponseInterface, next?: NextFunction) {
     if (e instanceof ValidationError) {
         // parse the validation error and format it to your own standard (or not).
@@ -151,7 +148,6 @@ function errorMiddleware(err: any, req: RequestInterface, res: ResponseInterface
 });
 
 api.use(validationErrorMiddleware, errorMiddleware);
-
 {% endhighlight %}
 
 ## Stand-alone usage
@@ -173,7 +169,7 @@ import { MethodNotAllowedError, RouteNotFoundError, Router } from '@serverless-f
 
 // Create a custom request that supports route parameters
 type Request = {
-params: { [key: string]: string }
+    params: { [key: string]: string }
 } & IncomingMessage;
 
 type Response = {} & ServerResponse;
