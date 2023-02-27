@@ -17,7 +17,7 @@ title: Serverless Framework
 description: Build your next serverless api
 baseurl: "/serverless-framework" # the subpath of your site, e.g. /blog
 url: "https://edwin-luijten.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-logo: "/assets/images/logo-compact.png"
+# logo: "/assets/images/logo.png"
 permalink: pretty
 
 exclude:

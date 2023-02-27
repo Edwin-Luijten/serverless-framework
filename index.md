@@ -5,9 +5,8 @@ nav_order: 1
 permalink: 
 ---
 
-<img src="/serverless-framework/assets/images/logo.png" width="200px" align="right" alt="logo"/>
-
-# Serverless Framework
+![](/serverless-framework/assets/images/logo-alt.png)
+{: .text-center }
 
 > Quickly start your next serverless api project.  
 
