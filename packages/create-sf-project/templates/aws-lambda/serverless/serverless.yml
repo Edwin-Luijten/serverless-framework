@@ -2,7 +2,7 @@ service: __project_name__
 configValidationMode: error
 
 provider:
-  stackName: ${env:STACK_NAME}-sls-serverless-framework
+  stackName: ${env:STACK_NAME}
   name: aws
   runtime: nodejs18.x
   stage: ${opt:stage, 'local'}
@@ -17,8 +17,6 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     ENVIRONMENT: ${opt:stage, 'local'}
     NODE_ENV: ${opt:stage, 'local'}
-    S3_BUCKET: ${env:S3_BUCKET, ''}
-    ELB_HOST: ${env:ELB_HOST, ''}
     # CUSTOM ENVS for our AWS stack:
 
 

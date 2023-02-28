@@ -29,3 +29,21 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run test
+
+      - name: Upload core test coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        width:
+          files: ./packages/core/.coverage/clover.xml
+          flags: core
+
+      - name: Upload router test coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        width:
+          files: ./packages/router/.coverage/clover.xml
+          flags: router
+
+      - name: Upload aws-lambda test coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        width:
+          files: ./packages/aws-lambda/.coverage/clover.xml
+          flags: aws-lambda
