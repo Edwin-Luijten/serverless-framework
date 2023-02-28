@@ -31,24 +31,24 @@ jobs:
       - run: npm run test
 
       - name: Upload core test coverage reports to Codecov
-        if: ${{ matrix.node-version }} == '18.x'
         uses: codecov/codecov-action@v3
+        if: matrix.node-version == '18.x'
         with:
           files: ./packages/core/.coverage/clover.xml
           flags: core
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload router test coverage reports to Codecov
-        if: ${{ matrix.node-version }} == '18.x'
         uses: codecov/codecov-action@v3
+        if: matrix.node-version == '18.x'
         with:
           files: ./packages/router/.coverage/clover.xml
           flags: router
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload aws-lambda test coverage reports to Codecov
-        if: ${{ matrix.node-version }} == '18.x'
         uses: codecov/codecov-action@v3
+        if: matrix.node-version == '18.x'
         with:
           files: ./packages/aws-lambda/.coverage/clover.xml
           flags: aws-lambda
