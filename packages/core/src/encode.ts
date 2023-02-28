@@ -1,6 +1,11 @@
 export function encodeBody(body: any): string {
-    return typeof body === 'object'
-        ? JSON.stringify(body)
-        : body && typeof body !== 'string' ? body.toString()
-            : body ? body : '';
+    if (typeof body === 'object') {
+        return JSON.stringify(body);
+    }
+
+    if (body !== null && typeof body?.toString === 'function') {
+        return body.toString();
+    }
+
+    return '';
 }

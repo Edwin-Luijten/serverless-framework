@@ -144,7 +144,7 @@ export class Response implements ResponseInterface {
 
     send(body: string): void {
         this._status = 'end';
-        if (this._etag && ['GET', 'HEAD'].includes(this._request.method) && !this.hasHeader('etag') && this.statusCode === HttpStatusCode.OK) {
+        if (this._etag && ['get', 'head'].includes(this._request.method.toLowerCase()) && !this.hasHeader('etag') && this.statusCode === HttpStatusCode.OK) {
             this.setHeader('etag', `"${this.generateEtag(body)}"`);
         }
 
@@ -153,6 +153,8 @@ export class Response implements ResponseInterface {
             this.status(HttpStatusCode.NOT_MODIFIED);
             body = '';
         }
+
+        if (this._request.method.toLowerCase() === 'head') body = '';
 
         const res = this.transform(this, body);
 
