@@ -38,7 +38,7 @@ When no arguments are given, the wizard will be used to gather some information.
 ### Usage
 
 ```shell
-npx @serverless-framework/create-roject <project-directory> <provider> [features]
+npx @serverless-framework/create-sf <project-directory> <provider> [features]
 ```
 
 #### Options
@@ -48,7 +48,7 @@ npx @serverless-framework/create-roject <project-directory> <provider> [features
 
 #### AWS-Lambda
 ```shell
-npx @serverless-framework/create-roject . aws-lambda [features]
+npx @serverless-framework/create-sf . aws-lambda [features]
 ```
 ##### Features
 - [serverless](https://www.serverless.com/framework/docs){:target="_blank"}
@@ -56,9 +56,9 @@ npx @serverless-framework/create-roject . aws-lambda [features]
 
 ##### Examples
 ```shell
-npx @serverless-framework/create-roject ./api aws-lambda --features serverless
-npx @serverless-framework/create-roject ./api aws-lambda --features serverless,localstack
-npx @serverless-framework/create-roject ./api aws-lambda --features localstack
+npx @serverless-framework/create-sf ./api aws-lambda --features serverless
+npx @serverless-framework/create-sf ./api aws-lambda --features serverless,localstack
+npx @serverless-framework/create-sf ./api aws-lambda --features localstack
 ```
 ## Manual installation
 
