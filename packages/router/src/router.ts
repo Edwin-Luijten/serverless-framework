@@ -1,5 +1,5 @@
 import { type Route, Tree } from './radix/tree';
-import { InvalidMethodError, MethodNotAllowedError, RouteNotFoundError } from './error';
+import { MethodNotAllowedError, RouteNotFoundError } from './error';
 
 const methodIndexMap: Record<string, number> = {
     get: 0,
@@ -8,10 +8,8 @@ const methodIndexMap: Record<string, number> = {
     put: 3,
     patch: 4,
     delete: 5,
-    connect: 6,
-    options: 7,
-    trace: 8,
-    any: 9,
+    options: 6,
+    any: 7,
 };
 
 export type Method =
@@ -19,11 +17,9 @@ export type Method =
     | 'post'
     | 'put'
     | 'delete'
-    | 'connect'
     | 'patch'
     | 'head'
     | 'options'
-    | 'trace'
     | 'any' & string;
 
 export class Router<Handler> {
@@ -47,13 +43,11 @@ export class Router<Handler> {
         }
     }
 
-    private static methodIndexOf(method: string): number {
+    private static validateMethod(method: string): void {
         const _method = method.toLowerCase();
         if (typeof methodIndexMap[_method] === 'undefined') {
-            throw new InvalidMethodError(_method, JSON.stringify(Object.keys(methodIndexMap).join(', ')));
+            throw new MethodNotAllowedError(_method, JSON.stringify(Object.keys(methodIndexMap).join(', ')));
         }
-
-        return methodIndexMap[_method];
     }
 
     public group(prefix: string, callback: (router: Router<Handler>) => void, beforeMiddlewares: Array<Handler> = [], afterMiddlewares: Array<Handler> = []): void {
@@ -141,28 +135,11 @@ export class Router<Handler> {
     }
 
     public lookup(method: string, path: string): Route<Handler> {
-        const methodIndex = Router.methodIndexOf(method);
+        Router.validateMethod(method);
 
-        if (methodIndex === -1) {
-            throw new MethodNotAllowedError();
-        }
+        const tree = this.trees.get(method.toLowerCase());
 
-        let tree = this.trees.get(method.toLowerCase());
-        if (!tree) {
-            throw new MethodNotAllowedError();
-        }
-
-        let route = tree.get(path);
-        if (route) {
-            return route;
-        }
-
-        tree = this.trees.get('any');
-        if (!tree) {
-            throw new MethodNotAllowedError();
-        }
-
-        route = tree.get(path);
+        const route = tree?.get(path);
         if (!route) {
             throw new RouteNotFoundError(path);
         }
@@ -181,14 +158,11 @@ export class Router<Handler> {
         if (path.length > 1 && path.startsWith('/')) path = path.replace('/', '');
 
         const tree = this.trees.get(_method);
-        if (!tree) {
-            throw new MethodNotAllowedError();
-        }
 
         const fullPath = `${this.base}${this.prefix}${path}`
             .replace(/([^:])(\/\/+)/g, '$1/') // Remove duplicate forward slashes
             .replace(/\/$/, ''); // Remove trailing slashes
 
-        tree.add(fullPath, [...this.beforeMiddlewares, ...handlers, ...this.afterMiddlewares]);
+        tree?.add(fullPath, [...this.beforeMiddlewares, ...handlers, ...this.afterMiddlewares]);
     }
 }

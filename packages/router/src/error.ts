@@ -1,14 +1,8 @@
-export class InvalidMethodError extends Error {
-    constructor(method: string, allowed: string) {
-        super(`invalid method: ${method}, use one of: ${allowed}`);
-
-        this.name = this.constructor.name;
-    }
-}
 
 export class MethodNotAllowedError extends Error {
-    constructor() {
-        super('method not allowed');
+    constructor(method?: string, allowed?: string) {
+        if (method && allowed) super(`invalid method: ${method}, use one of: ${allowed}`);
+        else super('method not allowed');
 
         this.name = this.constructor.name;
     }

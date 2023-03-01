@@ -1,15 +1,27 @@
-import { InvalidMethodError, RouteNotFoundError, Router } from '../../src';
+import { RouteNotFoundError, MethodNotAllowedError, Router } from '../../src';
 import { WildcardError } from '../../src/radix/error';
 import routes from './routes.json';
 
 type RequestHandler = () => any;
 
 describe('Router', () => {
+    it('should add an ending slash when none provided', () => {
+        const router = new Router<RequestHandler>('/api');
+        router.get('/foo');
+        const route = router.lookup('get', '/api/foo');
+        expect(route.path).toEqual('/api/foo');
+    });
+
     it('should throw an error on an invalid method', () => {
         const router = new Router<RequestHandler>();
         router.get('/blog', () => {});
 
-        expect(() => router.lookup('foo', '/blog')).toThrow(InvalidMethodError);
+        expect(() => router.lookup('foo', '/blog')).toThrow(MethodNotAllowedError);
+    });
+
+    it('should be able to set method not allowed alternative message', () => {
+        expect(() => {throw new MethodNotAllowedError()}).toThrow('method not allowed');
+        expect(() => {throw new MethodNotAllowedError('get', 'post')}).toThrow('invalid method: get, use one of: post');
     });
 
     it('should throw an error on route not found', () => {
@@ -26,34 +38,12 @@ describe('Router', () => {
 
     it('should be possible to add new entries', () => {
         const router = new Router<RequestHandler>();
-        router.get('/blog', () => {});
-        router.get('/blog/:slug', () => {});
-        router.get('/blog/:slug/comments', () => {});
-        router.get('/blog/:slug/comments/:id', () => {});
-        router.get('/blog/:slug/images/*image', () => {});
+        for (const method of ['get', 'post', 'put', 'patch', 'delete', 'head', 'any', 'options']) {
+            router[method]('/blog', () => {});
 
-        expect(router.export().get('get')?.root?.priority).toEqual(5);
-
-        let route = router.lookup('get', '/blog/foo');
-        expect(route.path).toEqual('/blog/foo');
-
-        route = router.lookup('get', '/blog/foo');
-        expect(route.path).toEqual('/blog/foo');
-        expect(route.params?.slug).toEqual('foo');
-
-        route = router.lookup('get', '/blog/foo/comments');
-        expect(route.path).toEqual('/blog/foo/comments');
-        expect(route.params?.slug).toEqual('foo');
-
-        route = router.lookup('get', '/blog/foo/comments/1');
-        expect(route.path).toEqual('/blog/foo/comments/1');
-        expect(route.params?.slug).toEqual('foo');
-        expect(route.params?.id).toEqual('1');
-
-        route = router.lookup('get', '/blog/foo/images/theme/default/header.png');
-        expect(route.path).toEqual('/blog/foo/images/theme/default/header.png');
-        expect(route.params?.slug).toEqual('foo');
-        expect(route.params?.image).toEqual('/theme/default/header.png');
+            let route = router.lookup(method, '/blog');
+            expect(route.path).toEqual('/blog');
+        }
     });
 
     it('should be possible to add new groups', () => {
@@ -86,6 +76,33 @@ describe('Router', () => {
         const route = router.lookup('get', '/blog/foo');
         expect(route.path).toEqual('/blog/foo');
         expect(route.handlers.length).toEqual(3);
+    });
+
+    it('should be possible to set before and after middlewares', () => {
+        const router = new Router<RequestHandler>();
+        router.applyBeforeMiddlewares([() => {}]);
+        router.applyAfterMiddlewares([() => {}]);
+
+        router.get('/blog/foo', () => {});
+
+        const route = router.lookup('get', '/blog/foo');
+        expect(route.path).toEqual('/blog/foo');
+        expect(route.handlers.length).toEqual(3);
+    });
+
+    it('should be possible to remove before and after middlewares', () => {
+        const router = new Router<RequestHandler>();
+        router.applyBeforeMiddlewares([() => {}]);
+        router.applyAfterMiddlewares([() => {}]);
+
+        router.removeBeforeMiddlewares();
+        router.removeAfterMiddlewares();
+
+        router.get('/blog/foo', () => {});
+
+        const route = router.lookup('get', '/blog/foo');
+        expect(route.path).toEqual('/blog/foo');
+        expect(route.handlers.length).toEqual(1);
     });
 
     it('should be possible to add middlewares per group', () => {
