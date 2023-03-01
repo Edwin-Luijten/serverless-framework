@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-alpha-1.6](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/create-sf@0.1.0-alpha-1.5...@serverless-framework/create-sf@0.1.0-alpha-1.6) (2023-03-01)
+
+
+### Bug Fixes
+
+* use root level await ([0a85b8a](https://github.com/Edwin-Luijten/serverless-framework/commit/0a85b8a00838c114a2f626f1c121363e9987fd04))
+
+
+
+
+
 # 0.1.0-alpha-1.5 (2023-02-27)
 
 

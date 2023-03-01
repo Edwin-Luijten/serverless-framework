@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-alpha-1.7](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/router@0.1.0-alpha-1.6...@serverless-framework/router@0.1.0-alpha-1.7) (2023-03-01)
+
+
+### Bug Fixes
+
+* **router:** fix regression ([4d56133](https://github.com/Edwin-Luijten/serverless-framework/commit/4d56133e1e2ac60068261e402f62020932714ef3))
+
+
+
+
+
 # [0.1.0-alpha-1.6](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/router@0.1.0-alpha-1.5...@serverless-framework/router@0.1.0-alpha-1.6) (2023-02-26)
 
 **Note:** Version bump only for package @serverless-framework/router
