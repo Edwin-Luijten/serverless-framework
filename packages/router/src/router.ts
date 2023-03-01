@@ -135,13 +135,19 @@ export class Router<Handler> {
     }
 
     public lookup(method: string, path: string): Route<Handler> {
-        Router.validateMethod(method);
+        const _method = method.toLowerCase();
+        Router.validateMethod(_method);
 
-        const tree = this.trees.get(method.toLowerCase());
+        let tree = this.trees.get(_method);
 
-        const route = tree?.get(path);
+        let route = tree?.get(path);
         if (!route) {
-            throw new RouteNotFoundError(path);
+            tree = this.trees.get('any');
+            route = tree?.get(path);
+
+            if (!route) {
+                throw new RouteNotFoundError(path);
+            }
         }
 
         return route;
