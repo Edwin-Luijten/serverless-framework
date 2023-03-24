@@ -108,7 +108,7 @@ export type RequestHandler<
     Query = any,
     ReqBody = any,
     Ctx = any,
-> = (req: RequestInterface<Params, Query, ReqBody, Ctx>, res: ResponseInterface, next?: NextFunction) => JsonValue | void;
+> = (req: RequestInterface<Params, Query, ReqBody, Ctx>, res: ResponseInterface, next?: NextFunction) => JsonValue | void | Promise<void> | Promise<JsonValue>;
 
 export type ErrorHandler<
     Params = any,

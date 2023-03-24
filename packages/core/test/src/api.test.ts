@@ -1,7 +1,7 @@
 import { req } from './req';
 import { res } from './res';
 
-import { BaseApi, RequestInterface, ResponseInterface, HttpStatusCode, NextFunction } from '../../src';
+import { BaseApi, RequestInterface, ResponseInterface, HttpStatusCode, NextFunction, JsonValue } from '../../src';
 
 let api: BaseApi;
 let resp: ResponseInterface;
@@ -13,6 +13,50 @@ describe('API', () => {
         });
 
         resp = res(req);
+    });
+
+    describe('Handlers', () => {
+        it('should accept async handlers',  async () => {
+            api.get('/async', async (req: RequestInterface, res: ResponseInterface) => {
+                const cb = () => new Promise((resolve) => {
+                    resolve('foo');
+                });
+
+                const v = await cb();
+
+                res.json({v: v});
+            });
+
+            req.path = '/api/async';
+            req.method = 'get';
+
+            const _resp = await api.handle(req, resp);
+
+            expect(_resp.status).toEqual(HttpStatusCode.OK);
+            expect(resp.statusCode).toEqual(HttpStatusCode.OK);
+            expect(_resp.body).toEqual('{"v":"foo"}');
+        });
+
+        it('should accept async handlers that return',  async () => {
+            api.get('/async', async (req: RequestInterface, res: ResponseInterface) => {
+                const cb = () => new Promise((resolve) => {
+                    resolve('foo');
+                });
+
+                const v = await cb();
+
+                return {v: v} as JsonValue;
+            });
+
+            req.path = '/api/async';
+            req.method = 'get';
+
+            const _resp = await api.handle(req, resp);
+
+            expect(_resp.status).toEqual(HttpStatusCode.OK);
+            expect(resp.statusCode).toEqual(HttpStatusCode.OK);
+            expect(_resp.body).toEqual('{"v":"foo"}');
+        });
     });
 
     describe('Group', () => {
