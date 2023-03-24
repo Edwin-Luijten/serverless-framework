@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-alpha-1.3](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/core@0.1.0-alpha-1.2...@serverless-framework/core@0.1.0-alpha-1.3) (2023-03-24)
+
+
+### Features
+
+* **core:** allow async handlers ([db6145d](https://github.com/Edwin-Luijten/serverless-framework/commit/db6145d60125d053e0716e0ef7ba70a68a12fcff))
+
+
+
+
+
 # [0.1.0-alpha-1.2](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/core@0.1.0-alpha-1.1...@serverless-framework/core@0.1.0-alpha-1.2) (2023-03-01)
 
 
