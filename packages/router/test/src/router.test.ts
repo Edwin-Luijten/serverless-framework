@@ -46,6 +46,22 @@ describe('Router', () => {
         }
     });
 
+    it('should accept async handlers', () => {
+        const router = new Router<RequestHandler>();
+        router.get('/async', async () => {
+            const cb = () => new Promise((resolve) => {
+                resolve('foo');
+            });
+
+            const v = await cb();
+
+            expect(v).toEqual('foo');
+        });
+
+        let route = router.lookup('get', '/async');
+        route.handlers.map(handler => handler());
+    });
+
     it('should be possible to add new groups', () => {
         const router = new Router<RequestHandler>();
         router.group('blog', (blog: Router<RequestHandler>) => {
