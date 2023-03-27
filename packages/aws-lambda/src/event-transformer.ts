@@ -21,6 +21,10 @@ export function eventTransformer(event: APIGatewayProxyEvent | APIGatewayProxyEv
         {}
     );
 
+    req.query = Object.assign({}, event.queryStringParameters);
+
+    if (isV2) req.query = querystring.parse(event.rawQueryString);
+
     // Cookies
     const cookies = isV2 ? event.cookies ?? [] : req.headers?.cookie?.split(';') ?? [];
 

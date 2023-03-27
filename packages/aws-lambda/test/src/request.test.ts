@@ -36,7 +36,10 @@ describe('Requests', () => {
             isBase64Encoded: false,
             ip: '172.22.0.1',
             params: {},
-            query: {},
+            query: {
+                'qs1': 'foo',
+                'qs2': 'bar'
+            },
             userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
             body: '',
         });
@@ -75,7 +78,10 @@ describe('Requests', () => {
             isBase64Encoded: true,
             ip: '205.255.255.176',
             params: {},
-            query: {},
+            query: {
+                "qs1": "foo",
+                "qs2": "bar",
+            },
             userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36',
             body: '',
         });
