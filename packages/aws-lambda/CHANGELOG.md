@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-alpha-1.0](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/aws-lambda@0.0.1-alpha-1.8...@serverless-framework/aws-lambda@0.1.0-alpha-1.0) (2023-03-27)
+
+
+### Features
+
+* **aws-lambda:** added query string ([9e4c473](https://github.com/Edwin-Luijten/serverless-framework/commit/9e4c473720f6a4a6a0c0f463ffb1b3f941f89661))
+
+
+
+
+
 ## [0.0.1-alpha-1.8](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/aws-lambda@0.0.1-alpha-1.7...@serverless-framework/aws-lambda@0.0.1-alpha-1.8) (2023-03-24)
 
 **Note:** Version bump only for package @serverless-framework/aws-lambda
