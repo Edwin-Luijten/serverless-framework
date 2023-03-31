@@ -130,10 +130,12 @@ describe('API', () => {
                 res.setHeader('a', 'b');
 
                 if (next) next();
+            }, (err: any, req: RequestInterface, res: ResponseInterface, next?: NextFunction) => {
+                return res.status(HttpStatusCode.BAD_REQUEST).json({foo: 'bar'});
             });
 
             api.get('/version', (req: RequestInterface, res: ResponseInterface) => {
-                res.sendStatus(HttpStatusCode.OK);
+                throw new Error('foo');
             });
 
             req.path = '/api/version';
@@ -141,8 +143,9 @@ describe('API', () => {
 
             const _resp = await api.handle(req, resp);
 
-            expect(_resp.status).toEqual(HttpStatusCode.OK);
-            expect(resp.statusCode).toEqual(HttpStatusCode.OK);
+            expect(_resp.status).toEqual(HttpStatusCode.BAD_REQUEST);
+            expect(resp.statusCode).toEqual(HttpStatusCode.BAD_REQUEST);
+            expect(_resp.body).toEqual('{"foo":"bar"}')
 
             // the middleware adds a header to the response
             expect(resp.headers['a']).toEqual(['b']);

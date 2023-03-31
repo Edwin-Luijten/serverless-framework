@@ -115,7 +115,7 @@ export class BaseApi {
                     }
                 });
             }
-
+    console.log('abce');
             return res._response;
         } catch (e: any) {
             if (e instanceof RouteNotFoundError) {

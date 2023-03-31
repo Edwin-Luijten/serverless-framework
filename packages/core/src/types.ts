@@ -72,6 +72,8 @@ export interface ResponseInterface<Res = any> {
 
     sendStatus(code: number): void;
 
+    cors(options: CorsOptions): this;
+
     send: Send<Res, void>;
 
     json: Send<Res, void>;
