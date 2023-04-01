@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-alpha-1.4](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/core@0.1.0-alpha-1.3...@serverless-framework/core@0.1.0-alpha-1.4) (2023-04-01)
+
+
+### Features
+
+* **core:** added cors method ([d1cca0f](https://github.com/Edwin-Luijten/serverless-framework/commit/d1cca0fab3e8c422899f7361ce91dc2f1a52d4c7))
+
+
+
+
+
 # [0.1.0-alpha-1.3](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/core@0.1.0-alpha-1.2...@serverless-framework/core@0.1.0-alpha-1.3) (2023-03-24)
 
 
