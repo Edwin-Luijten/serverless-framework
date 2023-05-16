@@ -18,5 +18,6 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.111"
-  }
+  },
+  "gitHead": "0aab9288c73901289228dec36fc97a781dcd1143"
 }
