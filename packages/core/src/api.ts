@@ -115,11 +115,10 @@ export class BaseApi {
                     }
                 });
             }
-    console.log('abce');
+
             return res._response;
         } catch (e: any) {
             if (e instanceof RouteNotFoundError) {
-                console.log(e.message);
                 res.sendStatus(HttpStatusCode.NOT_FOUND);
                 return res._response;
             }
