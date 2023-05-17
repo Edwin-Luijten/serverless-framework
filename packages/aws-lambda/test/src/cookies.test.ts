@@ -21,7 +21,7 @@ describe('Cookies', () => {
         expect(result).toEqual({
             body: '{"version":1}',
             headers: {
-                'content-type': ['application/json'],
+                'content-type': 'application/json',
             },
             isBase64Encoded: false,
             statusCode: HttpStatusCode.OK,
@@ -34,7 +34,7 @@ describe('Cookies', () => {
         expect(result).toEqual({
             body: '{"version":1}',
             headers: {
-                'content-type': ['application/json'],
+                'content-type': 'application/json',
             },
             isBase64Encoded: false,
             statusCode: HttpStatusCode.OK,

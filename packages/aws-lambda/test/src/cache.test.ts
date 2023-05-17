@@ -40,8 +40,8 @@ describe('Cache', () => {
         expect(result).toEqual({
             body: '{"version":1}',
             headers: {
-                'content-type': ['application/json'],
-                'cache-control': ['max-age=1000'],
+                'content-type': 'application/json',
+                'cache-control': 'max-age=1000',
                 'expires': result.headers.expires,
             },
             isBase64Encoded: false,
@@ -56,8 +56,8 @@ describe('Cache', () => {
         expect(result).toEqual({
             body: '{"version":1}',
             headers: {
-                'content-type': ['application/json'],
-                'cache-control': ['no-cache, no-store, must-revalidate'],
+                'content-type': 'application/json',
+                'cache-control': 'no-cache, no-store, must-revalidate',
             },
             isBase64Encoded: false,
             statusCode: HttpStatusCode.OK,
@@ -71,8 +71,8 @@ describe('Cache', () => {
         expect(result).toEqual({
             body: '{"version":1}',
             headers: {
-                'content-type': ['application/json'],
-                'cache-control': ['private, max-age=1000'],
+                'content-type': 'application/json',
+                'cache-control': 'private, max-age=1000',
                 'expires': result.headers.expires,
             },
             isBase64Encoded: false,
@@ -87,8 +87,8 @@ describe('Cache', () => {
         expect(result).toEqual({
             body: '{"version":1}',
             headers: {
-                'content-type': ['application/json'],
-                'cache-control': ['public'],
+                'content-type': 'application/json',
+                'cache-control': 'public',
                 'expires': result.headers.expires,
             },
             isBase64Encoded: false,
@@ -103,8 +103,8 @@ describe('Cache', () => {
         expect(result).toEqual({
             body: '{"version":1}',
             headers: {
-                'content-type': ['application/json'],
-                'cache-control': ['max-age=1000'],
+                'content-type': 'application/json',
+                'cache-control': 'max-age=1000',
                 'expires': result.headers.expires,
             },
             isBase64Encoded: false,
@@ -119,8 +119,8 @@ describe('Cache', () => {
         expect(result).toEqual({
             body: '{"version":1}',
             headers: {
-                'content-type': ['application/json'],
-                'cache-control': ['no-cache, no-store, must-revalidate'],
+                'content-type': 'application/json',
+                'cache-control': 'no-cache, no-store, must-revalidate',
             },
             isBase64Encoded: false,
             statusCode: HttpStatusCode.OK,
@@ -134,8 +134,8 @@ describe('Cache', () => {
         expect(result).toEqual({
             body: '{"version":1}',
             headers: {
-                'content-type': ['application/json'],
-                'cache-control': ['private, max-age=1000'],
+                'content-type': 'application/json',
+                'cache-control': 'private, max-age=1000',
                 'expires': result.headers.expires,
             },
             isBase64Encoded: false,
@@ -150,8 +150,8 @@ describe('Cache', () => {
         expect(result).toEqual({
             body: '{"version":1}',
             headers: {
-                'content-type': ['application/json'],
-                'cache-control': ['public'],
+                'content-type': 'application/json',
+                'cache-control': 'public',
                 'expires': result.headers.expires,
             },
             isBase64Encoded: false,

@@ -26,8 +26,8 @@ describe('Headers', () => {
         expect(result).toEqual({
             body: '{"version":1,"contentType":"application/json"}',
             headers: {
-                'content-type': ['application/json'],
-                'foo': ['bar'],
+                'content-type': 'application/json',
+                'foo': 'bar',
             },
             isBase64Encoded: false,
             statusCode: HttpStatusCode.OK,
@@ -40,8 +40,8 @@ describe('Headers', () => {
         expect(result).toEqual({
             body: '{"version":1,"contentType":"application/json"}',
             headers: {
-                'content-type': ['application/json'],
-                'foo': ['bar'],
+                'content-type': 'application/json',
+                'foo': 'bar',
             },
             isBase64Encoded: false,
             statusCode: HttpStatusCode.OK,
