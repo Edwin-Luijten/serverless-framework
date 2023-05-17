@@ -8,6 +8,7 @@ export function responseTransformer(response: ResponseInterface, body: string): 
         body: response._request.method === 'HEAD' ? '' : encodeBody(body)
     }
 
+    // Transform headers to a simple key value object
     Object.keys(response.headers).forEach((header) => {
         response._response.headers[header] = response.headers[header][0];
     });
