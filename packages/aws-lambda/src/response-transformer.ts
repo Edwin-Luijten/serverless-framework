@@ -4,9 +4,14 @@ export function responseTransformer(response: ResponseInterface, body: string): 
     response._response = {
         statusCode: response.statusCode,
         headers: response.headers,
+        multiValueHeaders: response.headers,
         isBase64Encoded: response.isBase64Encoded,
         body: response._request.method === 'HEAD' ? '' : encodeBody(body)
     }
+
+    Object.keys(response._response.headers).forEach((key) => {
+        response._response.headers[key.toLowerCase()] = response._response.headers[key][0];
+    });
 
     return response;
 }
