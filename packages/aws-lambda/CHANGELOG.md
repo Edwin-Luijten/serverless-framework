@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-alpha-1.6](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/aws-lambda@0.1.0-alpha-1.5...@serverless-framework/aws-lambda@0.1.0-alpha-1.6) (2023-05-17)
+
+
+### Bug Fixes
+
+* **aws-lambda:** header format ([b59a502](https://github.com/Edwin-Luijten/serverless-framework/commit/b59a502a580d8a13561b7f7cf49523f285240804))
+
+
+
+
+
 # [0.1.0-alpha-1.5](https://github.com/Edwin-Luijten/serverless-framework/compare/@serverless-framework/aws-lambda@0.1.0-alpha-1.4...@serverless-framework/aws-lambda@0.1.0-alpha-1.5) (2023-05-17)
 
 **Note:** Version bump only for package @serverless-framework/aws-lambda
