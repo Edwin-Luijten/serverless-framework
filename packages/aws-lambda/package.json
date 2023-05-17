@@ -1,6 +1,6 @@
 {
   "name": "@serverless-framework/aws-lambda",
-  "version": "0.1.0-alpha-1.6",
+  "version": "0.1.0-alpha-1.7",
   "private": false,
   "scripts": {
     "test": "jest",
