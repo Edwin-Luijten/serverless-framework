@@ -1,6 +1,6 @@
 {
   "name": "@serverless-framework/core",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": false,
   "publishConfig": {
     "access": "public",
@@ -18,7 +18,7 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "@serverless-framework/router": "^0.1.0"
+    "@serverless-framework/router": "^1.0.0"
   },
   "gitHead": "0aab9288c73901289228dec36fc97a781dcd1143"
 }
