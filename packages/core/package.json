@@ -1,0 +1,24 @@
+{
+  "name": "@serverless-framework/core",
+  "version": "0.1.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "dependencies": {
+    "@serverless-framework/router": "^0.1.0"
+  },
+  "gitHead": "0aab9288c73901289228dec36fc97a781dcd1143"
+}

@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+set -o nounset
+set -o errexit
+source ./shell-tools/style.sh
+
+cecho "To stream logs directly from AWS, make sure to configure your AWS profile in ~/.aws/credentials under [profileName]
+Additionally, to temporarily use a specific profile as default, use the following command:"
+cecho "export AWS_PROFILE=profileName
+" 36
+
+pids=()
+
+interrupt_logs() {
+  trap SIGINT
+  kill "${pids[@]}"
+  cecho "Interrupted tracking lambda logs." 33
+}
+
+trap "interrupt_logs" INT
+
+cecho "aws lambda list-functions --query 'Functions[].FunctionName' --output text" 36
+
+functions="$(aws lambda list-functions --query 'Functions[].FunctionName' --output text)"
+
+if [ -z "${functions}" ]; then
+  cecho "No lambda functions were found in the current AWS profile." 33
+  exit
+fi
+
+functions_valid=(
+  "cacheWarmup"
+  "cacheInvalidation"
+  "nextjsRevalidation"
+  "mobileAppTransformer"
+  "subMinuteScheduler"
+  "sportMonksUpdate"
+  "updateDetector"
+)
+
+functions_array=(${functions})
+
+for functionNameValid in "${functions_valid[@]}"; do
+  for functionName in "${functions_array[@]}"; do
+    if [[ " ${functionName} " =~ "-${functionNameValid} " ]]; then
+      cecho "aws logs tail /aws/lambda/${functionName} --color on --format short --since 1m --follow &" 36
+
+      aws logs tail /aws/lambda/${functionName} --color on --format short --since 1m --follow &
+      pids+=("$!")
+      break
+    fi
+  done
+done
+
+cecho "[OK]" 32
+
+for pid in ${pids[@]}; do
+  wait $pid
+done
+
+trap SIGINT

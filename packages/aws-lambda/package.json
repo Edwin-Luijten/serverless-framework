@@ -1,0 +1,23 @@
+{
+  "name": "@serverless-framework/aws-lambda",
+  "version": "0.1.0",
+  "private": false,
+  "scripts": {
+    "test": "jest",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "dependencies": {
+    "@serverless-framework/core": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.111"
+  },
+  "gitHead": "0aab9288c73901289228dec36fc97a781dcd1143"
+}
